@@ -20,5 +20,7 @@ module.exports = {
     loaders: [
       { test: /\.js|\.tag$/, exclude: /node_modules/, loader: 'babel-loader' }
     ]
-  }
+  },
+  
+  devtool: 'source-map'
 };

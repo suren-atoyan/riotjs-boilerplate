@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon app"
   },
-  "author": "",
+  "author": "SurenAt",
   "license": "ISC",
   "dependencies": {
     "babel-core": "latest",
     "babel-loader": "latest",
     "jade": "latest",
+    "nconf": "^0.8.4",
     "riot": "latest",
     "riotcontrol": "latest",
     "riotjs-loader": "latest",
