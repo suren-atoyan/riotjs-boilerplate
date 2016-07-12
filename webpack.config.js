@@ -1,22 +1,22 @@
 var webpack = require('webpack');
 
-// taken from:
-// https://github.com/esnunes/riotjs-loader
 module.exports = {
-  entry: [ './src/app' ],
+  entry: './public/app/app',
   output: {
-    path: __dirname + './dist',
-    filename: 'bundle.js'
+    filename: './public/app/bundle.js'
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings:     false,
-        drop_console: true,
-        unsafe:       true
-      }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings:     false,
+    //     drop_console: true,
+    //     unsafe:       true
+    //   }
+    // })
   ],
+
+  watch: true,
+
   module: {
     preLoaders: [
       { test: /\.tag$/, exclude: /node_modules/, loader: 'riotjs-loader', query: { template: 'jade' } }

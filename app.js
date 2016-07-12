@@ -1,16 +1,38 @@
-const webpack 			= require('webpack');
-const WebpackDevServer 	= require('webpack-dev-server');
-const webpackConfig 	= require('./webpack.config.js');
-const config 			= require('./config');
+'use strict';
+const express         = require('express');
+const errorHandler    = require('errorhandler');
+const figlet          = require('figlet');
+const path            = require('path');
+const bodyParser      = require('body-parser');
+const cookieParser    = require('cookie-parser');
+const favicon         = require('serve-favicon');
+const app             = express();
+// const log             = require('./libs/log')(module);
 
-// Set up inline reloading. This will automatically reload the browser when there's a change to the source.
-webpackConfig.entry.unshift("webpack-dev-server/client?http://localhost:3000");
+app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
-// Set up webpack-dev-server.
-var compiler = webpack(webpackConfig);
-var server = new WebpackDevServer(compiler, {
-  contentBase: __dirname + '/dist'
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/public'));
+require('./routes')(app);
+
+// webpack
+const webpack       = require('webpack');
+const config        = require('./config');
+
+const http   = require('http');
+const server = http.createServer(app);
+
+server.listen(process.env.PORT || config.get('port'), function() {
+  figlet.text('connect', function(err, date) {
+    if (err) {
+      return console.log(err);
+    } else {
+      console.log(date);
+    }
+  });
 });
-
-// Start the server on port 3000.
-server.listen(config.get('port'));
