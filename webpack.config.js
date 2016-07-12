@@ -9,16 +9,13 @@ module.exports = {
     filename: 'bundle.js'
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      riot: 'riot'
-    }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings:     false,
-    //     drop_console: true,
-    //     unsafe:       true
-    //   }
-    // })
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings:     false,
+        drop_console: true,
+        unsafe:       true
+      }
+    })
   ],
   module: {
     preLoaders: [

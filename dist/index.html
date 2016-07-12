@@ -8,6 +8,39 @@
 
 <body>
   <app></app>
+  <div id="demo">
+    <h1>{{title | uppercase}}</h1>
+    <table class="ui celled table">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Sure Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(key, val) in todos">
+          <td>
+            <div 
+              class="ui ribbon label"
+            >
+              {{val.first_name}}
+            </div>
+          </td>
+          <td
+          >{{val.last_name}}</td>
+          <td
+          >{{val.sure_name}}</td>
+        </tr>
+      </tbody>
+    <!-- <ul class="ui link list">
+      <li v-for="todo in todos" 
+        :class="{ red: todo.done }"
+        @click="todo.done = !todo.done"> 
+        {{todo.content}}
+      </li>
+    </ul> -->
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.js"></script>
   <script src="bundle.js"></script>
