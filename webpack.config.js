@@ -11,15 +11,29 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       riot: 'riot'
-    })
+    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings:     false,
+    //     drop_console: true,
+    //     unsafe:       true
+    //   }
+    // })
   ],
   module: {
     preLoaders: [
       { test: /\.tag$/, exclude: /node_modules/, loader: 'riotjs-loader', query: { template: 'jade' } }
     ],
     loaders: [
-      { test: /\.js|\.tag$/, exclude: /node_modules/, loader: 'babel-loader' }
-    ]
+      {
+        test: /\.js|\.tag$/, exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      }
+    ],
+
   },
   
   devtool: 'source-map'
