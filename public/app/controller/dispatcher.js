@@ -1,19 +1,15 @@
 'use strict';
 
-import Backbone from '../../../bower_components/backbone/backbone.js';
 import _        from '../../../bower_components/underscore/underscore.js';
-var $ = require('jquery');
+
+var Backbone = require('backbone');
 
 var Dispatcher = _.extend({}, Backbone.Events);
 
 var api = {
   test: function(options) {
-    var data = {
-      user_name: 'Suren',
-    }
-    var AppCompositeTpl = require('../tpls/app.composite.js')(data);
-    console.log(AppCompositeTpl);
-    $('#app_composite').html(AppCompositeTpl);
+    var CompositeView = require('../views/app.composite.view');
+    console.log(CompositeView())
   }
 }
 
