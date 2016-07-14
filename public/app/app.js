@@ -6,11 +6,13 @@ require('../../semantic/dist/components/dimmer');
 require('../../semantic/dist/components/transition');
 require('../../semantic/dist/components/modal');
 require('../../semantic/dist/components/dropdown');
+require('../../semantic/dist/components/tab');
+require('../../semantic/dist/components/rating');
+require('../../semantic/dist/components/popup');
+require('../../semantic/dist/components/sticky');
 
-// import '../../semantic/dist/components/rating';
-// import '../../semantic/dist/components/tab';
-// import '../../semantic/dist/components/popup';
-// import '../../semantic/dist/components/sticky';
+require('../../semantic/dist/components/api');
+
 
 import Dispatcher from './controller/dispatcher.js';
 

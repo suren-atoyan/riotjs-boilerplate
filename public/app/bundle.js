@@ -63,11 +63,12 @@
 	__webpack_require__(8);
 	__webpack_require__(9);
 	__webpack_require__(10);
+	__webpack_require__(11);
+	__webpack_require__(12);
+	__webpack_require__(13);
+	__webpack_require__(14);
 	
-	// import '../../semantic/dist/components/rating';
-	// import '../../semantic/dist/components/tab';
-	// import '../../semantic/dist/components/popup';
-	// import '../../semantic/dist/components/sticky';
+	__webpack_require__(15);
 	
 	_dispatcher2.default.trigger('create:app.composite.view');
 
@@ -13674,7 +13675,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 	
 	var _backbone = __webpack_require__(4);
@@ -13686,32 +13687,56 @@
 	var tpl = __webpack_require__(6);
 	
 	var test = _backbone2.default.View.extend({
-		el: '#app_composite',
+	  el: '#app_composite',
 	
-		events: {
-			'click .meta a': 'modal_show'
-		},
+	  events: {
+	    'click .meta a': 'modal_show',
+	    'click #prog_langs.menu .item': 'load_messages'
+	  },
 	
-		template: tpl,
+	  template: tpl,
 	
-		initialize: function initialize() {
-			this.data = {
-				user_name: 'Suren'
-			};
-			this.render();
-		},
+	  initialize: function initialize() {
+	    this.data = {
+	      first_name: 'Suren',
+	      last_name: 'Atoyan'
+	    };
+	    this.data.full_name = this.data.first_name + ' ' + this.data.last_name;
+	    this.render();
+	  },
 	
-		render: function render() {
-			this.$el.html(this.template(this.data));
-			this.$('.ui.dropdown').dropdown();
+	  render: function render() {
+	    this.$el.html(this.template(this.data));
+	    this.$('.ui.dropdown').dropdown();
+	    this.$('#prog_langs.menu .item').tab({
+	      cache: true,
+	      // faking API request
+	      apiSettings: {
+	        loadingDuration: 300,
+	        mockResponse: function mockResponse(settings) {
+	          var response = {
+	            first: 'AJAX Tab One',
+	            second: 'AJAX Tab Two',
+	            third: 'AJAX Tab Three'
+	          };
+	          return response[settings.urlData.tab];
+	        }
+	      },
+	      context: 'parent',
+	      auto: true,
+	      path: '/'
+	    });
+	    return this;
+	  },
 	
-			return this;
-		},
+	  modal_show: function modal_show() {
+	    console.log(_backbone2.default);
+	    this.$('.ui.basic.modal').modal('show');
+	  },
 	
-		modal_show: function modal_show() {
-			console.log(_backbone2.default);
-			this.$('.ui.basic.modal').modal('show');
-		}
+	  load_messages: function load_messages(e) {
+	    var tab = this.$(e.target).data('tab');
+	  }
 	});
 	
 	exports.default = test;
@@ -13723,7 +13748,7 @@
 	"use strict";
 	
 	module.exports = function (data) {
-	  return "\n  <div class=\"ui dropdown\">\n  <div class=\"text\">File</div>\n  <i class=\"dropdown icon\"></i>\n  <div class=\"menu\">\n    <div class=\"item\">New</div>\n    <div class=\"item\">\n      <span class=\"description\">ctrl + o</span>\n      Open...\n    </div>\n    <div class=\"item\">\n      <span class=\"description\">ctrl + s</span>\n      Save as...\n    </div>\n    <div class=\"item\">\n      <span class=\"description\">ctrl + r</span>\n      Rename\n    </div>\n    <div class=\"item\">Make a copy</div>\n    <div class=\"item\">\n      <i class=\"folder icon\"></i>\n      Move to folder\n    </div>\n    <div class=\"item\">\n      <i class=\"trash icon\"></i>\n      Move to trash\n    </div>\n    <div class=\"divider\"></div>\n    <div class=\"item\">Download As...</div>\n    <div class=\"item\">\n      <i class=\"dropdown icon\"></i>\n      Publish To Web\n      <div class=\"menu\">\n        <div class=\"item\">Google Docs</div>\n        <div class=\"item\">Google Drive</div>\n        <div class=\"item\">Dropbox</div>\n        <div class=\"item\">Adobe Creative Cloud</div>\n        <div class=\"item\">Private FTP</div>\n        <div class=\"item\">Another Service...</div>\n      </div>\n    </div>\n    <div class=\"item\">E-mail Collaborators</div>\n  </div>\n</div>\n          <div class=\"ui list\">\n            <div class=\"item\">\n              <i class=\"users icon\"></i>\n              <div class=\"content\">\n                " + data.user_name + "\n              </div>\n            </div>\n          </div>\n          <div class=\"ui people shape\">\n          <div class=\"sides\">\n            <div class=\"side active\">\n              <div class=\"ui card\">\n                <div class=\"image\">\n                  <img src=\"http://pickaface.net/includes/themes/clean/img/slide2.png\">\n                </div>\n                <div class=\"content\">\n                  <div class=\"header\">Steve Jobes</div>\n                  <div class=\"meta\">\n                    <a>Acquaintances</a>\n                  </div>\n                  <div class=\"description\">\n                    Steve Jobes is a fictional character designed to resemble someone familiar to readers.\n                  </div>\n                </div>\n                <div class=\"extra content\">\n                  <span class=\"right floated\">\n                    Joined in 2014\n                  </span>\n                  <span>\n                    <i class=\"user icon\"></i>\n                    151 Friends\n                  </span>\n                </div>\n              </div>\n            </div>\n            <div class=\"side\">\n              <div class=\"ui card\">\n                <div class=\"image\">\n                  <img src=\"http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-plaid-shirt-guy.png\">\n                </div>\n                <div class=\"content\">\n                  <a class=\"header\">Stevie Feliciano</a>\n                  <div class=\"meta\">\n                    <span class=\"date\">Joined in 2014</span>\n                  </div>\n                  <div class=\"description\">\n                    Stevie Feliciano is a library scientist living in New York City. She likes to spend her time reading, running, and writing.\n                  </div>\n                </div>\n                <div class=\"extra content\">\n                  <a>\n                    <i class=\"user icon\"></i>\n                    22 Friends\n                  </a>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"ui basic modal\">\n          <i class=\"close icon\"></i>\n          <div class=\"header\">\n            Archive Old Messages\n          </div>\n          <div class=\"image content\">\n            <div class=\"image\">\n              <i class=\"archive icon\"></i>\n            </div>\n            <div class=\"description\">\n              <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>\n            </div>\n          </div>\n          <div class=\"actions\">\n            <div class=\"two fluid ui inverted buttons\">\n              <div class=\"ui cancel red basic inverted button\">\n                <i class=\"remove icon\"></i>\n                No\n              </div>\n              <div class=\"ui ok green basic inverted button\">\n                <i class=\"checkmark icon\"></i>\n                Yes\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"ui form\">\n          <div class=\"grouped fields\">\n            <label>Outbound Throughput</label>\n            <div class=\"field\">\n              <div class=\"ui slider checkbox\">\n                <input type=\"radio\" name=\"throughput\" checked=\"checked id=\"input_20_mbps\">\n                <label for=\"input_20_mbps\">20 mbps max</label>\n              </div>\n            </div>\n            <div class=\"field\">\n              <div class=\"ui slider checkbox\">\n                <input type=\"radio\" name=\"throughput\" id=\"input_10_mbps\">\n                <label for=\"input_10_mbps\">10mbps max</label>\n              </div>\n            </div>\n            <div class=\"field\">\n              <div class=\"ui slider checkbox\">\n                <input type=\"radio\" name=\"throughput\" id=\"input_5_mbps\">\n                <label for=\"input_5_mbps\">5mbps max</label>\n              </div>\n            </div>\n            <div class=\"field\">\n              <div class=\"ui slider checkbox checked\">\n                <input type=\"radio\" name=\"throughput\" id=\"input_unmetered_mbps\">\n                <label for=\"input_unmetered_mbps\">Unmetered</label>\n              </div>\n            </div>\n          </div>\n        </div>\n        ";
+	  return "\n        <div class=\"four wide column\">\n          <div class=\"ui dropdown\">\n            <div class=\"text\">File</div>\n            <i class=\"dropdown icon\"></i>\n            <div class=\"menu\">\n              <div class=\"item\">New</div>\n              <div class=\"item\">\n                <span class=\"description\">ctrl + o</span>\n                Open...\n              </div>\n              <div class=\"item\">\n                <span class=\"description\">ctrl + s</span>\n                Save as...\n              </div>\n              <div class=\"item\">\n                <span class=\"description\">ctrl + r</span>\n                Rename\n              </div>\n              <div class=\"item\">Make a copy</div>\n              <div class=\"item\">\n                <i class=\"folder icon\"></i>\n                Move to folder\n              </div>\n              <div class=\"item\">\n                <i class=\"trash icon\"></i>\n                Move to trash\n              </div>\n              <div class=\"divider\"></div>\n              <div class=\"item\">Download As...</div>\n              <div class=\"item\">\n                <i class=\"dropdown icon\"></i>\n                Publish To Web\n                <div class=\"menu\">\n                  <div class=\"item\">Google Docs</div>\n                  <div class=\"item\">Google Drive</div>\n                  <div class=\"item\">Dropbox</div>\n                  <div class=\"item\">Adobe Creative Cloud</div>\n                  <div class=\"item\">Private FTP</div>\n                  <div class=\"item\">Another Service...</div>\n                </div>\n              </div>\n              <div class=\"item\">E-mail Collaborators</div>\n            </div>\n          </div>\n          <div class=\"ui list\">\n            <div class=\"item\">\n              <i class=\"users icon\"></i>\n              <div class=\"content\">\n                " + data.first_name + "\n              </div>\n            </div>\n          </div>\n          <div class=\"ui people shape\">\n          <div class=\"sides\">\n            <div class=\"side active\">\n              <div class=\"ui card\">\n                <div class=\"image\">\n                  <img src=\"http://pickaface.net/includes/themes/clean/img/slide2.png\">\n                </div>\n                <div class=\"content\">\n                  <div class=\"header\">" + data.full_name + "</div>\n                  <div class=\"meta\">\n                    <a>Software enginer</a>\n                  </div>\n                  <div class=\"description\">\n                    " + data.first_name + " is a fictional character designed to resemble someone familiar to readers.\n                  </div>\n                </div>\n                <div class=\"extra content\">\n                  <span class=\"right floated\">\n                    Joined in 2014\n                  </span>\n                  <span>\n                    <i class=\"user icon\"></i>\n                    151 Friends\n                  </span>\n                </div>\n              </div>\n            </div>\n            <div class=\"side\">\n              <div class=\"ui card\">\n                <div class=\"image\">\n                  <img src=\"http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-plaid-shirt-guy.png\">\n                </div>\n                <div class=\"content\">\n                  <a class=\"header\">Stevie Feliciano</a>\n                  <div class=\"meta\">\n                    <span class=\"date\">Joined in 2014</span>\n                  </div>\n                  <div class=\"description\">\n                    Stevie Feliciano is a library scientist living in New York City. She likes to spend her time reading, running, and writing.\n                  </div>\n                </div>\n                <div class=\"extra content\">\n                  <a>\n                    <i class=\"user icon\"></i>\n                    22 Friends\n                  </a>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"ui basic modal\">\n          <i class=\"close icon\"></i>\n          <div class=\"header\">\n            Archive Old Messages\n          </div>\n          <div class=\"image content\">\n            <div class=\"image\">\n              <i class=\"archive icon\"></i>\n            </div>\n            <div class=\"description\">\n              <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>\n            </div>\n          </div>\n          <div class=\"actions\">\n            <div class=\"two fluid ui inverted buttons\">\n              <div class=\"ui cancel red basic inverted button\">\n                <i class=\"remove icon\"></i>\n                No\n              </div>\n              <div class=\"ui ok green basic inverted button\">\n                <i class=\"checkmark icon\"></i>\n                Yes\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"ui form\">\n          <div class=\"grouped fields\">\n            <label>Outbound Throughput</label>\n            <div class=\"field\">\n              <div class=\"ui slider checkbox\">\n                <input type=\"radio\" id=\"input_20_mbps\" name=\"throughput\" checked=\"checked\" />\n                <label class=\"\" for=\"input_20_mbps\">20 mbps max</label>\n              </div>\n            </div>\n            <div class=\"field\">\n              <div class=\"ui slider checkbox\">\n                <input type=\"radio\" name=\"throughput\" id=\"input_10_mbps\">\n                <label for=\"input_10_mbps\">10mbps max</label>\n              </div>\n            </div>\n            <div class=\"field\">\n              <div class=\"ui slider checkbox\">\n                <input type=\"radio\" name=\"throughput\" id=\"input_5_mbps\">\n                <label for=\"input_5_mbps\">5mbps max</label>\n              </div>\n            </div>\n            <div class=\"field\">\n              <div class=\"ui slider checkbox checked\">\n                <input type=\"radio\" name=\"throughput\" id=\"input_unmetered_mbps\">\n                <label for=\"input_unmetered_mbps\">Unmetered</label>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"twelve wide column\">\n        <div class=\"ui top attached tabular menu\" id=\"prog_langs\">\n          <a class=\"item active\" data-tab=\"JavaScript\">JavaScript</a>\n          <a class=\"item\" data-tab=\"NodeJs\">NodeJs</a>\n          <a class=\"item\" data-tab=\"Python\">Python</a>\n          <a class=\"item\" data-tab=\"Java\">Java</a>\n        </div>\n        <div class=\"langs_tab ui bottom attached tab segment active\" data-tab=\"JavaScript\">\n          JS\n        </div>\n        <div class=\"langs_tab ui bottom attached tab segment\" data-tab=\"NodeJs\">\n          NodeJs\n        </div>\n        <div class=\"langs_tab ui bottom attached tab segment\" data-tab=\"Python\">\n          Python\n        </div>\n        <div class=\"langs_tab ui bottom attached tab segment\" data-tab=\"Java\">\n          Java\n        </div>\n      </div>\n  ";
 	};
 
 /***/ },
@@ -16093,6 +16118,4245 @@
 	label:function label(value,text){return text+'<i class="delete icon"></i>';},// generates messages like "No results"
 	message:function message(_message2){return _message2;},// generates user addition to selection menu
 	addition:function addition(choice){return choice;}};})(jQuery,window,document);
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/*!
+	 * # Semantic UI 2.2.2 - Tab
+	 * http://github.com/semantic-org/semantic-ui/
+	 *
+	 *
+	 * Released under the MIT license
+	 * http://opensource.org/licenses/MIT
+	 *
+	 */
+	
+	;(function ($, window, document, undefined) {
+	
+	  "use strict";
+	
+	  window = typeof window != 'undefined' && window.Math == Math ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	
+	  $.fn.tab = function (parameters) {
+	
+	    var
+	    // use window context if none specified
+	    $allModules = $.isFunction(this) ? $(window) : $(this),
+	        moduleSelector = $allModules.selector || '',
+	        time = new Date().getTime(),
+	        performance = [],
+	        query = arguments[0],
+	        methodInvoked = typeof query == 'string',
+	        queryArguments = [].slice.call(arguments, 1),
+	        initializedHistory = false,
+	        returnedValue;
+	
+	    $allModules.each(function () {
+	      var settings = $.isPlainObject(parameters) ? $.extend(true, {}, $.fn.tab.settings, parameters) : $.extend({}, $.fn.tab.settings),
+	          className = settings.className,
+	          metadata = settings.metadata,
+	          selector = settings.selector,
+	          error = settings.error,
+	          eventNamespace = '.' + settings.namespace,
+	          moduleNamespace = 'module-' + settings.namespace,
+	          $module = $(this),
+	          $context,
+	          $tabs,
+	          cache = {},
+	          firstLoad = true,
+	          recursionDepth = 0,
+	          element = this,
+	          instance = $module.data(moduleNamespace),
+	          activeTabPath,
+	          parameterArray,
+	          module,
+	          historyEvent;
+	
+	      module = {
+	
+	        initialize: function initialize() {
+	          module.debug('Initializing tab menu item', $module);
+	          module.fix.callbacks();
+	          module.determineTabs();
+	
+	          module.debug('Determining tabs', settings.context, $tabs);
+	          // set up automatic routing
+	          if (settings.auto) {
+	            module.set.auto();
+	          }
+	          module.bind.events();
+	
+	          if (settings.history && !initializedHistory) {
+	            module.initializeHistory();
+	            initializedHistory = true;
+	          }
+	
+	          module.instantiate();
+	        },
+	
+	        instantiate: function instantiate() {
+	          module.verbose('Storing instance of module', module);
+	          instance = module;
+	          $module.data(moduleNamespace, module);
+	        },
+	
+	        destroy: function destroy() {
+	          module.debug('Destroying tabs', $module);
+	          $module.removeData(moduleNamespace).off(eventNamespace);
+	        },
+	
+	        bind: {
+	          events: function events() {
+	            // if using $.tab don't add events
+	            if (!$.isWindow(element)) {
+	              module.debug('Attaching tab activation events to element', $module);
+	              $module.on('click' + eventNamespace, module.event.click);
+	            }
+	          }
+	        },
+	
+	        determineTabs: function determineTabs() {
+	          var $reference;
+	
+	          // determine tab context
+	          if (settings.context === 'parent') {
+	            if ($module.closest(selector.ui).length > 0) {
+	              $reference = $module.closest(selector.ui);
+	              module.verbose('Using closest UI element as parent', $reference);
+	            } else {
+	              $reference = $module;
+	            }
+	            $context = $reference.parent();
+	            module.verbose('Determined parent element for creating context', $context);
+	          } else if (settings.context) {
+	            $context = $(settings.context);
+	            module.verbose('Using selector for tab context', settings.context, $context);
+	          } else {
+	            $context = $('body');
+	          }
+	          // find tabs
+	          if (settings.childrenOnly) {
+	            $tabs = $context.children(selector.tabs);
+	            module.debug('Searching tab context children for tabs', $context, $tabs);
+	          } else {
+	            $tabs = $context.find(selector.tabs);
+	            module.debug('Searching tab context for tabs', $context, $tabs);
+	          }
+	        },
+	
+	        fix: {
+	          callbacks: function callbacks() {
+	            if ($.isPlainObject(parameters) && (parameters.onTabLoad || parameters.onTabInit)) {
+	              if (parameters.onTabLoad) {
+	                parameters.onLoad = parameters.onTabLoad;
+	                delete parameters.onTabLoad;
+	                module.error(error.legacyLoad, parameters.onLoad);
+	              }
+	              if (parameters.onTabInit) {
+	                parameters.onFirstLoad = parameters.onTabInit;
+	                delete parameters.onTabInit;
+	                module.error(error.legacyInit, parameters.onFirstLoad);
+	              }
+	              settings = $.extend(true, {}, $.fn.tab.settings, parameters);
+	            }
+	          }
+	        },
+	
+	        initializeHistory: function initializeHistory() {
+	          module.debug('Initializing page state');
+	          if ($.address === undefined) {
+	            module.error(error.state);
+	            return false;
+	          } else {
+	            if (settings.historyType == 'state') {
+	              module.debug('Using HTML5 to manage state');
+	              if (settings.path !== false) {
+	                $.address.history(true).state(settings.path);
+	              } else {
+	                module.error(error.path);
+	                return false;
+	              }
+	            }
+	            $.address.bind('change', module.event.history.change);
+	          }
+	        },
+	
+	        event: {
+	          click: function click(event) {
+	            var tabPath = $(this).data(metadata.tab);
+	            if (tabPath !== undefined) {
+	              if (settings.history) {
+	                module.verbose('Updating page state', event);
+	                $.address.value(tabPath);
+	              } else {
+	                module.verbose('Changing tab', event);
+	                module.changeTab(tabPath);
+	              }
+	              event.preventDefault();
+	            } else {
+	              module.debug('No tab specified');
+	            }
+	          },
+	          history: {
+	            change: function change(event) {
+	              var tabPath = event.pathNames.join('/') || module.get.initialPath(),
+	                  pageTitle = settings.templates.determineTitle(tabPath) || false;
+	              module.performance.display();
+	              module.debug('History change event', tabPath, event);
+	              historyEvent = event;
+	              if (tabPath !== undefined) {
+	                module.changeTab(tabPath);
+	              }
+	              if (pageTitle) {
+	                $.address.title(pageTitle);
+	              }
+	            }
+	          }
+	        },
+	
+	        refresh: function refresh() {
+	          if (activeTabPath) {
+	            module.debug('Refreshing tab', activeTabPath);
+	            module.changeTab(activeTabPath);
+	          }
+	        },
+	
+	        cache: {
+	
+	          read: function read(cacheKey) {
+	            return cacheKey !== undefined ? cache[cacheKey] : false;
+	          },
+	          add: function add(cacheKey, content) {
+	            cacheKey = cacheKey || activeTabPath;
+	            module.debug('Adding cached content for', cacheKey);
+	            cache[cacheKey] = content;
+	          },
+	          remove: function remove(cacheKey) {
+	            cacheKey = cacheKey || activeTabPath;
+	            module.debug('Removing cached content for', cacheKey);
+	            delete cache[cacheKey];
+	          }
+	        },
+	
+	        set: {
+	          auto: function auto() {
+	            var url = typeof settings.path == 'string' ? settings.path.replace(/\/$/, '') + '/{$tab}' : '/{$tab}';
+	            module.verbose('Setting up automatic tab retrieval from server', url);
+	            if ($.isPlainObject(settings.apiSettings)) {
+	              settings.apiSettings.url = url;
+	            } else {
+	              settings.apiSettings = {
+	                url: url
+	              };
+	            }
+	          },
+	          loading: function loading(tabPath) {
+	            var $tab = module.get.tabElement(tabPath),
+	                isLoading = $tab.hasClass(className.loading);
+	            if (!isLoading) {
+	              module.verbose('Setting loading state for', $tab);
+	              $tab.addClass(className.loading).siblings($tabs).removeClass(className.active + ' ' + className.loading);
+	              if ($tab.length > 0) {
+	                settings.onRequest.call($tab[0], tabPath);
+	              }
+	            }
+	          },
+	          state: function state(_state) {
+	            $.address.value(_state);
+	          }
+	        },
+	
+	        changeTab: function changeTab(tabPath) {
+	          var pushStateAvailable = window.history && window.history.pushState,
+	              shouldIgnoreLoad = pushStateAvailable && settings.ignoreFirstLoad && firstLoad,
+	              remoteContent = settings.auto || $.isPlainObject(settings.apiSettings),
+	
+	          // only add default path if not remote content
+	          pathArray = remoteContent && !shouldIgnoreLoad ? module.utilities.pathToArray(tabPath) : module.get.defaultPathArray(tabPath);
+	          tabPath = module.utilities.arrayToPath(pathArray);
+	          $.each(pathArray, function (index, tab) {
+	            var currentPathArray = pathArray.slice(0, index + 1),
+	                currentPath = module.utilities.arrayToPath(currentPathArray),
+	                isTab = module.is.tab(currentPath),
+	                isLastIndex = index + 1 == pathArray.length,
+	                $tab = module.get.tabElement(currentPath),
+	                $anchor,
+	                nextPathArray,
+	                nextPath,
+	                isLastTab;
+	            module.verbose('Looking for tab', tab);
+	            if (isTab) {
+	              module.verbose('Tab was found', tab);
+	              // scope up
+	              activeTabPath = currentPath;
+	              parameterArray = module.utilities.filterArray(pathArray, currentPathArray);
+	
+	              if (isLastIndex) {
+	                isLastTab = true;
+	              } else {
+	                nextPathArray = pathArray.slice(0, index + 2);
+	                nextPath = module.utilities.arrayToPath(nextPathArray);
+	                isLastTab = !module.is.tab(nextPath);
+	                if (isLastTab) {
+	                  module.verbose('Tab parameters found', nextPathArray);
+	                }
+	              }
+	              if (isLastTab && remoteContent) {
+	                if (!shouldIgnoreLoad) {
+	                  module.activate.navigation(currentPath);
+	                  module.fetch.content(currentPath, tabPath);
+	                } else {
+	                  module.debug('Ignoring remote content on first tab load', currentPath);
+	                  firstLoad = false;
+	                  module.cache.add(tabPath, $tab.html());
+	                  module.activate.all(currentPath);
+	                  settings.onFirstLoad.call($tab[0], currentPath, parameterArray, historyEvent);
+	                  settings.onLoad.call($tab[0], currentPath, parameterArray, historyEvent);
+	                }
+	                return false;
+	              } else {
+	                module.debug('Opened local tab', currentPath);
+	                module.activate.all(currentPath);
+	                if (!module.cache.read(currentPath)) {
+	                  module.cache.add(currentPath, true);
+	                  module.debug('First time tab loaded calling tab init');
+	                  settings.onFirstLoad.call($tab[0], currentPath, parameterArray, historyEvent);
+	                }
+	                settings.onLoad.call($tab[0], currentPath, parameterArray, historyEvent);
+	              }
+	            } else if (tabPath.search('/') == -1 && tabPath !== '') {
+	              // look for in page anchor
+	              $anchor = $('#' + tabPath + ', a[name="' + tabPath + '"]');
+	              currentPath = $anchor.closest('[data-tab]').data(metadata.tab);
+	              $tab = module.get.tabElement(currentPath);
+	              // if anchor exists use parent tab
+	              if ($anchor && $anchor.length > 0 && currentPath) {
+	                module.debug('Anchor link used, opening parent tab', $tab, $anchor);
+	                if (!$tab.hasClass(className.active)) {
+	                  setTimeout(function () {
+	                    module.scrollTo($anchor);
+	                  }, 0);
+	                }
+	                module.activate.all(currentPath);
+	                if (!module.cache.read(currentPath)) {
+	                  module.cache.add(currentPath, true);
+	                  module.debug('First time tab loaded calling tab init');
+	                  settings.onFirstLoad.call($tab[0], currentPath, parameterArray, historyEvent);
+	                }
+	                settings.onLoad.call($tab[0], currentPath, parameterArray, historyEvent);
+	                return false;
+	              }
+	            } else {
+	              module.error(error.missingTab, $module, $context, currentPath);
+	              return false;
+	            }
+	          });
+	        },
+	
+	        scrollTo: function scrollTo($element) {
+	          var scrollOffset = $element && $element.length > 0 ? $element.offset().top : false;
+	          if (scrollOffset !== false) {
+	            module.debug('Forcing scroll to an in-page link in a hidden tab', scrollOffset, $element);
+	            $(document).scrollTop(scrollOffset);
+	          }
+	        },
+	
+	        update: {
+	          content: function content(tabPath, html, evaluateScripts) {
+	            var $tab = module.get.tabElement(tabPath),
+	                tab = $tab[0];
+	            evaluateScripts = evaluateScripts !== undefined ? evaluateScripts : settings.evaluateScripts;
+	            if (evaluateScripts) {
+	              module.debug('Updating HTML and evaluating inline scripts', tabPath, html);
+	              $tab.html(html);
+	            } else {
+	              module.debug('Updating HTML', tabPath, html);
+	              tab.innerHTML = html;
+	            }
+	          }
+	        },
+	
+	        fetch: {
+	
+	          content: function content(tabPath, fullTabPath) {
+	            var $tab = module.get.tabElement(tabPath),
+	                apiSettings = {
+	              dataType: 'html',
+	              encodeParameters: false,
+	              on: 'now',
+	              cache: settings.alwaysRefresh,
+	              headers: {
+	                'X-Remote': true
+	              },
+	              onSuccess: function onSuccess(response) {
+	                if (settings.cacheType == 'response') {
+	                  module.cache.add(fullTabPath, response);
+	                }
+	                module.update.content(tabPath, response);
+	                if (tabPath == activeTabPath) {
+	                  module.debug('Content loaded', tabPath);
+	                  module.activate.tab(tabPath);
+	                } else {
+	                  module.debug('Content loaded in background', tabPath);
+	                }
+	                settings.onFirstLoad.call($tab[0], tabPath, parameterArray, historyEvent);
+	                settings.onLoad.call($tab[0], tabPath, parameterArray, historyEvent);
+	                if (settings.cacheType != 'response') {
+	                  module.cache.add(fullTabPath, $tab.html());
+	                }
+	              },
+	              urlData: {
+	                tab: fullTabPath
+	              }
+	            },
+	                request = $tab.api('get request') || false,
+	                existingRequest = request && request.state() === 'pending',
+	                requestSettings,
+	                cachedContent;
+	
+	            fullTabPath = fullTabPath || tabPath;
+	            cachedContent = module.cache.read(fullTabPath);
+	
+	            if (settings.cache && cachedContent) {
+	              module.activate.tab(tabPath);
+	              module.debug('Adding cached content', fullTabPath);
+	              if (settings.evaluateScripts == 'once') {
+	                module.update.content(tabPath, cachedContent, false);
+	              } else {
+	                module.update.content(tabPath, cachedContent);
+	              }
+	              settings.onLoad.call($tab[0], tabPath, parameterArray, historyEvent);
+	            } else if (existingRequest) {
+	              module.set.loading(tabPath);
+	              module.debug('Content is already loading', fullTabPath);
+	            } else if ($.api !== undefined) {
+	              requestSettings = $.extend(true, {}, settings.apiSettings, apiSettings);
+	              module.debug('Retrieving remote content', fullTabPath, requestSettings);
+	              module.set.loading(tabPath);
+	              $tab.api(requestSettings);
+	            } else {
+	              module.error(error.api);
+	            }
+	          }
+	        },
+	
+	        activate: {
+	          all: function all(tabPath) {
+	            module.activate.tab(tabPath);
+	            module.activate.navigation(tabPath);
+	          },
+	          tab: function tab(tabPath) {
+	            var $tab = module.get.tabElement(tabPath),
+	                $deactiveTabs = settings.deactivate == 'siblings' ? $tab.siblings($tabs) : $tabs.not($tab),
+	                isActive = $tab.hasClass(className.active);
+	            module.verbose('Showing tab content for', $tab);
+	            if (!isActive) {
+	              $tab.addClass(className.active);
+	              $deactiveTabs.removeClass(className.active + ' ' + className.loading);
+	              if ($tab.length > 0) {
+	                settings.onVisible.call($tab[0], tabPath);
+	              }
+	            }
+	          },
+	          navigation: function navigation(tabPath) {
+	            var $navigation = module.get.navElement(tabPath),
+	                $deactiveNavigation = settings.deactivate == 'siblings' ? $navigation.siblings($allModules) : $allModules.not($navigation),
+	                isActive = $navigation.hasClass(className.active);
+	            module.verbose('Activating tab navigation for', $navigation, tabPath);
+	            if (!isActive) {
+	              $navigation.addClass(className.active);
+	              $deactiveNavigation.removeClass(className.active + ' ' + className.loading);
+	            }
+	          }
+	        },
+	
+	        deactivate: {
+	          all: function all() {
+	            module.deactivate.navigation();
+	            module.deactivate.tabs();
+	          },
+	          navigation: function navigation() {
+	            $allModules.removeClass(className.active);
+	          },
+	          tabs: function tabs() {
+	            $tabs.removeClass(className.active + ' ' + className.loading);
+	          }
+	        },
+	
+	        is: {
+	          tab: function tab(tabName) {
+	            return tabName !== undefined ? module.get.tabElement(tabName).length > 0 : false;
+	          }
+	        },
+	
+	        get: {
+	          initialPath: function initialPath() {
+	            return $allModules.eq(0).data(metadata.tab) || $tabs.eq(0).data(metadata.tab);
+	          },
+	          path: function path() {
+	            return $.address.value();
+	          },
+	          // adds default tabs to tab path
+	          defaultPathArray: function defaultPathArray(tabPath) {
+	            return module.utilities.pathToArray(module.get.defaultPath(tabPath));
+	          },
+	          defaultPath: function defaultPath(tabPath) {
+	            var $defaultNav = $allModules.filter('[data-' + metadata.tab + '^="' + tabPath + '/"]').eq(0),
+	                defaultTab = $defaultNav.data(metadata.tab) || false;
+	            if (defaultTab) {
+	              module.debug('Found default tab', defaultTab);
+	              if (recursionDepth < settings.maxDepth) {
+	                recursionDepth++;
+	                return module.get.defaultPath(defaultTab);
+	              }
+	              module.error(error.recursion);
+	            } else {
+	              module.debug('No default tabs found for', tabPath, $tabs);
+	            }
+	            recursionDepth = 0;
+	            return tabPath;
+	          },
+	          navElement: function navElement(tabPath) {
+	            tabPath = tabPath || activeTabPath;
+	            return $allModules.filter('[data-' + metadata.tab + '="' + tabPath + '"]');
+	          },
+	          tabElement: function tabElement(tabPath) {
+	            var $fullPathTab, $simplePathTab, tabPathArray, lastTab;
+	            tabPath = tabPath || activeTabPath;
+	            tabPathArray = module.utilities.pathToArray(tabPath);
+	            lastTab = module.utilities.last(tabPathArray);
+	            $fullPathTab = $tabs.filter('[data-' + metadata.tab + '="' + tabPath + '"]');
+	            $simplePathTab = $tabs.filter('[data-' + metadata.tab + '="' + lastTab + '"]');
+	            return $fullPathTab.length > 0 ? $fullPathTab : $simplePathTab;
+	          },
+	          tab: function tab() {
+	            return activeTabPath;
+	          }
+	        },
+	
+	        utilities: {
+	          filterArray: function filterArray(keepArray, removeArray) {
+	            return $.grep(keepArray, function (keepValue) {
+	              return $.inArray(keepValue, removeArray) == -1;
+	            });
+	          },
+	          last: function last(array) {
+	            return $.isArray(array) ? array[array.length - 1] : false;
+	          },
+	          pathToArray: function pathToArray(pathName) {
+	            if (pathName === undefined) {
+	              pathName = activeTabPath;
+	            }
+	            return typeof pathName == 'string' ? pathName.split('/') : [pathName];
+	          },
+	          arrayToPath: function arrayToPath(pathArray) {
+	            return $.isArray(pathArray) ? pathArray.join('/') : false;
+	          }
+	        },
+	
+	        setting: function setting(name, value) {
+	          module.debug('Changing setting', name, value);
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, settings, name);
+	          } else if (value !== undefined) {
+	            if ($.isPlainObject(settings[name])) {
+	              $.extend(true, settings[name], value);
+	            } else {
+	              settings[name] = value;
+	            }
+	          } else {
+	            return settings[name];
+	          }
+	        },
+	        internal: function internal(name, value) {
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, module, name);
+	          } else if (value !== undefined) {
+	            module[name] = value;
+	          } else {
+	            return module[name];
+	          }
+	        },
+	        debug: function debug() {
+	          if (!settings.silent && settings.debug) {
+	            if (settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.debug = Function.prototype.bind.call(console.info, console, settings.name + ':');
+	              module.debug.apply(console, arguments);
+	            }
+	          }
+	        },
+	        verbose: function verbose() {
+	          if (!settings.silent && settings.verbose && settings.debug) {
+	            if (settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.verbose = Function.prototype.bind.call(console.info, console, settings.name + ':');
+	              module.verbose.apply(console, arguments);
+	            }
+	          }
+	        },
+	        error: function error() {
+	          if (!settings.silent) {
+	            module.error = Function.prototype.bind.call(console.error, console, settings.name + ':');
+	            module.error.apply(console, arguments);
+	          }
+	        },
+	        performance: {
+	          log: function log(message) {
+	            var currentTime, executionTime, previousTime;
+	            if (settings.performance) {
+	              currentTime = new Date().getTime();
+	              previousTime = time || currentTime;
+	              executionTime = currentTime - previousTime;
+	              time = currentTime;
+	              performance.push({
+	                'Name': message[0],
+	                'Arguments': [].slice.call(message, 1) || '',
+	                'Element': element,
+	                'Execution Time': executionTime
+	              });
+	            }
+	            clearTimeout(module.performance.timer);
+	            module.performance.timer = setTimeout(module.performance.display, 500);
+	          },
+	          display: function display() {
+	            var title = settings.name + ':',
+	                totalTime = 0;
+	            time = false;
+	            clearTimeout(module.performance.timer);
+	            $.each(performance, function (index, data) {
+	              totalTime += data['Execution Time'];
+	            });
+	            title += ' ' + totalTime + 'ms';
+	            if (moduleSelector) {
+	              title += ' \'' + moduleSelector + '\'';
+	            }
+	            if ((console.group !== undefined || console.table !== undefined) && performance.length > 0) {
+	              console.groupCollapsed(title);
+	              if (console.table) {
+	                console.table(performance);
+	              } else {
+	                $.each(performance, function (index, data) {
+	                  console.log(data['Name'] + ': ' + data['Execution Time'] + 'ms');
+	                });
+	              }
+	              console.groupEnd();
+	            }
+	            performance = [];
+	          }
+	        },
+	        invoke: function invoke(query, passedArguments, context) {
+	          var object = instance,
+	              maxDepth,
+	              found,
+	              response;
+	          passedArguments = passedArguments || queryArguments;
+	          context = element || context;
+	          if (typeof query == 'string' && object !== undefined) {
+	            query = query.split(/[\. ]/);
+	            maxDepth = query.length - 1;
+	            $.each(query, function (depth, value) {
+	              var camelCaseValue = depth != maxDepth ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1) : query;
+	              if ($.isPlainObject(object[camelCaseValue]) && depth != maxDepth) {
+	                object = object[camelCaseValue];
+	              } else if (object[camelCaseValue] !== undefined) {
+	                found = object[camelCaseValue];
+	                return false;
+	              } else if ($.isPlainObject(object[value]) && depth != maxDepth) {
+	                object = object[value];
+	              } else if (object[value] !== undefined) {
+	                found = object[value];
+	                return false;
+	              } else {
+	                module.error(error.method, query);
+	                return false;
+	              }
+	            });
+	          }
+	          if ($.isFunction(found)) {
+	            response = found.apply(context, passedArguments);
+	          } else if (found !== undefined) {
+	            response = found;
+	          }
+	          if ($.isArray(returnedValue)) {
+	            returnedValue.push(response);
+	          } else if (returnedValue !== undefined) {
+	            returnedValue = [returnedValue, response];
+	          } else if (response !== undefined) {
+	            returnedValue = response;
+	          }
+	          return found;
+	        }
+	      };
+	      if (methodInvoked) {
+	        if (instance === undefined) {
+	          module.initialize();
+	        }
+	        module.invoke(query);
+	      } else {
+	        if (instance !== undefined) {
+	          instance.invoke('destroy');
+	        }
+	        module.initialize();
+	      }
+	    });
+	    return returnedValue !== undefined ? returnedValue : this;
+	  };
+	
+	  // shortcut for tabbed content with no defined navigation
+	  $.tab = function () {
+	    $(window).tab.apply(this, arguments);
+	  };
+	
+	  $.fn.tab.settings = {
+	
+	    name: 'Tab',
+	    namespace: 'tab',
+	
+	    silent: false,
+	    debug: false,
+	    verbose: false,
+	    performance: true,
+	
+	    auto: false, // uses pjax style endpoints fetching content from same url with remote-content headers
+	    history: false, // use browser history
+	    historyType: 'hash', // #/ or html5 state
+	    path: false, // base path of url
+	
+	    context: false, // specify a context that tabs must appear inside
+	    childrenOnly: false, // use only tabs that are children of context
+	    maxDepth: 25, // max depth a tab can be nested
+	
+	    deactivate: 'siblings', // whether tabs should deactivate sibling menu elements or all elements initialized together
+	
+	    alwaysRefresh: false, // load tab content new every tab click
+	    cache: true, // cache the content requests to pull locally
+	    cacheType: 'response', // Whether to cache exact response, or to html cache contents after scripts execute
+	    ignoreFirstLoad: false, // don't load remote content on first load
+	
+	    apiSettings: false, // settings for api call
+	    evaluateScripts: 'once', // whether inline scripts should be parsed (true/false/once). Once will not re-evaluate on cached content
+	
+	    onFirstLoad: function onFirstLoad(tabPath, parameterArray, historyEvent) {}, // called first time loaded
+	    onLoad: function onLoad(tabPath, parameterArray, historyEvent) {}, // called on every load
+	    onVisible: function onVisible(tabPath, parameterArray, historyEvent) {}, // called every time tab visible
+	    onRequest: function onRequest(tabPath, parameterArray, historyEvent) {}, // called ever time a tab beings loading remote content
+	
+	    templates: {
+	      determineTitle: function determineTitle(tabArray) {} // returns page title for path
+	    },
+	
+	    error: {
+	      api: 'You attempted to load content without API module',
+	      method: 'The method you called is not defined',
+	      missingTab: 'Activated tab cannot be found. Tabs are case-sensitive.',
+	      noContent: 'The tab you specified is missing a content url.',
+	      path: 'History enabled, but no path was specified',
+	      recursion: 'Max recursive depth reached',
+	      legacyInit: 'onTabInit has been renamed to onFirstLoad in 2.0, please adjust your code.',
+	      legacyLoad: 'onTabLoad has been renamed to onLoad in 2.0. Please adjust your code',
+	      state: 'History requires Asual\'s Address library <https://github.com/asual/jquery-address>'
+	    },
+	
+	    metadata: {
+	      tab: 'tab',
+	      loaded: 'loaded',
+	      promise: 'promise'
+	    },
+	
+	    className: {
+	      loading: 'loading',
+	      active: 'active'
+	    },
+	
+	    selector: {
+	      tabs: '.ui.tab',
+	      ui: '.ui'
+	    }
+	
+	  };
+	})(jQuery, window, document);
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/*!
+	 * # Semantic UI 2.2.2 - Rating
+	 * http://github.com/semantic-org/semantic-ui/
+	 *
+	 *
+	 * Released under the MIT license
+	 * http://opensource.org/licenses/MIT
+	 *
+	 */
+	
+	;(function ($, window, document, undefined) {
+	
+	  "use strict";
+	
+	  window = typeof window != 'undefined' && window.Math == Math ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	
+	  $.fn.rating = function (parameters) {
+	    var $allModules = $(this),
+	        moduleSelector = $allModules.selector || '',
+	        time = new Date().getTime(),
+	        performance = [],
+	        query = arguments[0],
+	        methodInvoked = typeof query == 'string',
+	        queryArguments = [].slice.call(arguments, 1),
+	        returnedValue;
+	    $allModules.each(function () {
+	      var settings = $.isPlainObject(parameters) ? $.extend(true, {}, $.fn.rating.settings, parameters) : $.extend({}, $.fn.rating.settings),
+	          namespace = settings.namespace,
+	          className = settings.className,
+	          metadata = settings.metadata,
+	          selector = settings.selector,
+	          error = settings.error,
+	          eventNamespace = '.' + namespace,
+	          moduleNamespace = 'module-' + namespace,
+	          element = this,
+	          instance = $(this).data(moduleNamespace),
+	          $module = $(this),
+	          $icon = $module.find(selector.icon),
+	          _initialLoad,
+	          module;
+	
+	      module = {
+	
+	        initialize: function initialize() {
+	          module.verbose('Initializing rating module', settings);
+	
+	          if ($icon.length === 0) {
+	            module.setup.layout();
+	          }
+	
+	          if (settings.interactive) {
+	            module.enable();
+	          } else {
+	            module.disable();
+	          }
+	          module.set.initialLoad();
+	          module.set.rating(module.get.initialRating());
+	          module.remove.initialLoad();
+	          module.instantiate();
+	        },
+	
+	        instantiate: function instantiate() {
+	          module.verbose('Instantiating module', settings);
+	          instance = module;
+	          $module.data(moduleNamespace, module);
+	        },
+	
+	        destroy: function destroy() {
+	          module.verbose('Destroying previous instance', instance);
+	          module.remove.events();
+	          $module.removeData(moduleNamespace);
+	        },
+	
+	        refresh: function refresh() {
+	          $icon = $module.find(selector.icon);
+	        },
+	
+	        setup: {
+	          layout: function layout() {
+	            var maxRating = module.get.maxRating(),
+	                html = $.fn.rating.settings.templates.icon(maxRating);
+	            module.debug('Generating icon html dynamically');
+	            $module.html(html);
+	            module.refresh();
+	          }
+	        },
+	
+	        event: {
+	          mouseenter: function mouseenter() {
+	            var $activeIcon = $(this);
+	            $activeIcon.nextAll().removeClass(className.selected);
+	            $module.addClass(className.selected);
+	            $activeIcon.addClass(className.selected).prevAll().addClass(className.selected);
+	          },
+	          mouseleave: function mouseleave() {
+	            $module.removeClass(className.selected);
+	            $icon.removeClass(className.selected);
+	          },
+	          click: function click() {
+	            var $activeIcon = $(this),
+	                currentRating = module.get.rating(),
+	                rating = $icon.index($activeIcon) + 1,
+	                canClear = settings.clearable == 'auto' ? $icon.length === 1 : settings.clearable;
+	            if (canClear && currentRating == rating) {
+	              module.clearRating();
+	            } else {
+	              module.set.rating(rating);
+	            }
+	          }
+	        },
+	
+	        clearRating: function clearRating() {
+	          module.debug('Clearing current rating');
+	          module.set.rating(0);
+	        },
+	
+	        bind: {
+	          events: function events() {
+	            module.verbose('Binding events');
+	            $module.on('mouseenter' + eventNamespace, selector.icon, module.event.mouseenter).on('mouseleave' + eventNamespace, selector.icon, module.event.mouseleave).on('click' + eventNamespace, selector.icon, module.event.click);
+	          }
+	        },
+	
+	        remove: {
+	          events: function events() {
+	            module.verbose('Removing events');
+	            $module.off(eventNamespace);
+	          },
+	          initialLoad: function initialLoad() {
+	            _initialLoad = false;
+	          }
+	        },
+	
+	        enable: function enable() {
+	          module.debug('Setting rating to interactive mode');
+	          module.bind.events();
+	          $module.removeClass(className.disabled);
+	        },
+	
+	        disable: function disable() {
+	          module.debug('Setting rating to read-only mode');
+	          module.remove.events();
+	          $module.addClass(className.disabled);
+	        },
+	
+	        is: {
+	          initialLoad: function initialLoad() {
+	            return _initialLoad;
+	          }
+	        },
+	
+	        get: {
+	          initialRating: function initialRating() {
+	            if ($module.data(metadata.rating) !== undefined) {
+	              $module.removeData(metadata.rating);
+	              return $module.data(metadata.rating);
+	            }
+	            return settings.initialRating;
+	          },
+	          maxRating: function maxRating() {
+	            if ($module.data(metadata.maxRating) !== undefined) {
+	              $module.removeData(metadata.maxRating);
+	              return $module.data(metadata.maxRating);
+	            }
+	            return settings.maxRating;
+	          },
+	          rating: function rating() {
+	            var currentRating = $icon.filter('.' + className.active).length;
+	            module.verbose('Current rating retrieved', currentRating);
+	            return currentRating;
+	          }
+	        },
+	
+	        set: {
+	          rating: function rating(_rating) {
+	            var ratingIndex = _rating - 1 >= 0 ? _rating - 1 : 0,
+	                $activeIcon = $icon.eq(ratingIndex);
+	            $module.removeClass(className.selected);
+	            $icon.removeClass(className.selected).removeClass(className.active);
+	            if (_rating > 0) {
+	              module.verbose('Setting current rating to', _rating);
+	              $activeIcon.prevAll().addBack().addClass(className.active);
+	            }
+	            if (!module.is.initialLoad()) {
+	              settings.onRate.call(element, _rating);
+	            }
+	          },
+	          initialLoad: function initialLoad() {
+	            _initialLoad = true;
+	          }
+	        },
+	
+	        setting: function setting(name, value) {
+	          module.debug('Changing setting', name, value);
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, settings, name);
+	          } else if (value !== undefined) {
+	            if ($.isPlainObject(settings[name])) {
+	              $.extend(true, settings[name], value);
+	            } else {
+	              settings[name] = value;
+	            }
+	          } else {
+	            return settings[name];
+	          }
+	        },
+	        internal: function internal(name, value) {
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, module, name);
+	          } else if (value !== undefined) {
+	            module[name] = value;
+	          } else {
+	            return module[name];
+	          }
+	        },
+	        debug: function debug() {
+	          if (!settings.silent && settings.debug) {
+	            if (settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.debug = Function.prototype.bind.call(console.info, console, settings.name + ':');
+	              module.debug.apply(console, arguments);
+	            }
+	          }
+	        },
+	        verbose: function verbose() {
+	          if (!settings.silent && settings.verbose && settings.debug) {
+	            if (settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.verbose = Function.prototype.bind.call(console.info, console, settings.name + ':');
+	              module.verbose.apply(console, arguments);
+	            }
+	          }
+	        },
+	        error: function error() {
+	          if (!settings.silent) {
+	            module.error = Function.prototype.bind.call(console.error, console, settings.name + ':');
+	            module.error.apply(console, arguments);
+	          }
+	        },
+	        performance: {
+	          log: function log(message) {
+	            var currentTime, executionTime, previousTime;
+	            if (settings.performance) {
+	              currentTime = new Date().getTime();
+	              previousTime = time || currentTime;
+	              executionTime = currentTime - previousTime;
+	              time = currentTime;
+	              performance.push({
+	                'Name': message[0],
+	                'Arguments': [].slice.call(message, 1) || '',
+	                'Element': element,
+	                'Execution Time': executionTime
+	              });
+	            }
+	            clearTimeout(module.performance.timer);
+	            module.performance.timer = setTimeout(module.performance.display, 500);
+	          },
+	          display: function display() {
+	            var title = settings.name + ':',
+	                totalTime = 0;
+	            time = false;
+	            clearTimeout(module.performance.timer);
+	            $.each(performance, function (index, data) {
+	              totalTime += data['Execution Time'];
+	            });
+	            title += ' ' + totalTime + 'ms';
+	            if (moduleSelector) {
+	              title += ' \'' + moduleSelector + '\'';
+	            }
+	            if ($allModules.length > 1) {
+	              title += ' ' + '(' + $allModules.length + ')';
+	            }
+	            if ((console.group !== undefined || console.table !== undefined) && performance.length > 0) {
+	              console.groupCollapsed(title);
+	              if (console.table) {
+	                console.table(performance);
+	              } else {
+	                $.each(performance, function (index, data) {
+	                  console.log(data['Name'] + ': ' + data['Execution Time'] + 'ms');
+	                });
+	              }
+	              console.groupEnd();
+	            }
+	            performance = [];
+	          }
+	        },
+	        invoke: function invoke(query, passedArguments, context) {
+	          var object = instance,
+	              maxDepth,
+	              found,
+	              response;
+	          passedArguments = passedArguments || queryArguments;
+	          context = element || context;
+	          if (typeof query == 'string' && object !== undefined) {
+	            query = query.split(/[\. ]/);
+	            maxDepth = query.length - 1;
+	            $.each(query, function (depth, value) {
+	              var camelCaseValue = depth != maxDepth ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1) : query;
+	              if ($.isPlainObject(object[camelCaseValue]) && depth != maxDepth) {
+	                object = object[camelCaseValue];
+	              } else if (object[camelCaseValue] !== undefined) {
+	                found = object[camelCaseValue];
+	                return false;
+	              } else if ($.isPlainObject(object[value]) && depth != maxDepth) {
+	                object = object[value];
+	              } else if (object[value] !== undefined) {
+	                found = object[value];
+	                return false;
+	              } else {
+	                return false;
+	              }
+	            });
+	          }
+	          if ($.isFunction(found)) {
+	            response = found.apply(context, passedArguments);
+	          } else if (found !== undefined) {
+	            response = found;
+	          }
+	          if ($.isArray(returnedValue)) {
+	            returnedValue.push(response);
+	          } else if (returnedValue !== undefined) {
+	            returnedValue = [returnedValue, response];
+	          } else if (response !== undefined) {
+	            returnedValue = response;
+	          }
+	          return found;
+	        }
+	      };
+	      if (methodInvoked) {
+	        if (instance === undefined) {
+	          module.initialize();
+	        }
+	        module.invoke(query);
+	      } else {
+	        if (instance !== undefined) {
+	          instance.invoke('destroy');
+	        }
+	        module.initialize();
+	      }
+	    });
+	
+	    return returnedValue !== undefined ? returnedValue : this;
+	  };
+	
+	  $.fn.rating.settings = {
+	
+	    name: 'Rating',
+	    namespace: 'rating',
+	
+	    slent: false,
+	    debug: false,
+	    verbose: false,
+	    performance: true,
+	
+	    initialRating: 0,
+	    interactive: true,
+	    maxRating: 4,
+	    clearable: 'auto',
+	
+	    fireOnInit: false,
+	
+	    onRate: function onRate(rating) {},
+	
+	    error: {
+	      method: 'The method you called is not defined',
+	      noMaximum: 'No maximum rating specified. Cannot generate HTML automatically'
+	    },
+	
+	    metadata: {
+	      rating: 'rating',
+	      maxRating: 'maxRating'
+	    },
+	
+	    className: {
+	      active: 'active',
+	      disabled: 'disabled',
+	      selected: 'selected',
+	      loading: 'loading'
+	    },
+	
+	    selector: {
+	      icon: '.icon'
+	    },
+	
+	    templates: {
+	      icon: function icon(maxRating) {
+	        var icon = 1,
+	            html = '';
+	        while (icon <= maxRating) {
+	          html += '<i class="icon"></i>';
+	          icon++;
+	        }
+	        return html;
+	      }
+	    }
+	
+	  };
+	})(jQuery, window, document);
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	/*!
+	 * # Semantic UI 2.2.2 - Popup
+	 * http://github.com/semantic-org/semantic-ui/
+	 *
+	 *
+	 * Released under the MIT license
+	 * http://opensource.org/licenses/MIT
+	 *
+	 */
+	
+	;(function ($, window, document, undefined) {
+	
+	  "use strict";
+	
+	  window = typeof window != 'undefined' && window.Math == Math ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	
+	  $.fn.popup = function (parameters) {
+	    var $allModules = $(this),
+	        $document = $(document),
+	        $window = $(window),
+	        $body = $('body'),
+	        moduleSelector = $allModules.selector || '',
+	        hasTouch = true,
+	        time = new Date().getTime(),
+	        performance = [],
+	        query = arguments[0],
+	        methodInvoked = typeof query == 'string',
+	        queryArguments = [].slice.call(arguments, 1),
+	        returnedValue;
+	    $allModules.each(function () {
+	      var settings = $.isPlainObject(parameters) ? $.extend(true, {}, $.fn.popup.settings, parameters) : $.extend({}, $.fn.popup.settings),
+	          selector = settings.selector,
+	          className = settings.className,
+	          error = settings.error,
+	          metadata = settings.metadata,
+	          namespace = settings.namespace,
+	          eventNamespace = '.' + settings.namespace,
+	          moduleNamespace = 'module-' + namespace,
+	          $module = $(this),
+	          $context = $(settings.context),
+	          $scrollContext = $(settings.scrollContext),
+	          $boundary = $(settings.boundary),
+	          $target = settings.target ? $(settings.target) : $module,
+	          $popup,
+	          $offsetParent,
+	          searchDepth = 0,
+	          triedPositions = false,
+	          openedWithTouch = false,
+	          element = this,
+	          instance = $module.data(moduleNamespace),
+	          documentObserver,
+	          elementNamespace,
+	          _id,
+	          module;
+	
+	      module = {
+	
+	        // binds events
+	        initialize: function initialize() {
+	          module.debug('Initializing', $module);
+	          module.createID();
+	          module.bind.events();
+	          if (!module.exists() && settings.preserve) {
+	            module.create();
+	          }
+	          module.observeChanges();
+	          module.instantiate();
+	        },
+	
+	        instantiate: function instantiate() {
+	          module.verbose('Storing instance', module);
+	          instance = module;
+	          $module.data(moduleNamespace, instance);
+	        },
+	
+	        observeChanges: function observeChanges() {
+	          if ('MutationObserver' in window) {
+	            documentObserver = new MutationObserver(module.event.documentChanged);
+	            documentObserver.observe(document, {
+	              childList: true,
+	              subtree: true
+	            });
+	            module.debug('Setting up mutation observer', documentObserver);
+	          }
+	        },
+	
+	        refresh: function refresh() {
+	          if (settings.popup) {
+	            $popup = $(settings.popup).eq(0);
+	          } else {
+	            if (settings.inline) {
+	              $popup = $target.nextAll(selector.popup).eq(0);
+	              settings.popup = $popup;
+	            }
+	          }
+	          if (settings.popup) {
+	            $popup.addClass(className.loading);
+	            $offsetParent = module.get.offsetParent();
+	            $popup.removeClass(className.loading);
+	            if (settings.movePopup && module.has.popup() && module.get.offsetParent($popup)[0] !== $offsetParent[0]) {
+	              module.debug('Moving popup to the same offset parent as activating element');
+	              $popup.detach().appendTo($offsetParent);
+	            }
+	          } else {
+	            $offsetParent = settings.inline ? module.get.offsetParent($target) : module.has.popup() ? module.get.offsetParent($popup) : $body;
+	          }
+	          if ($offsetParent.is('html') && $offsetParent[0] !== $body[0]) {
+	            module.debug('Setting page as offset parent');
+	            $offsetParent = $body;
+	          }
+	          if (module.get.variation()) {
+	            module.set.variation();
+	          }
+	        },
+	
+	        reposition: function reposition() {
+	          module.refresh();
+	          module.set.position();
+	        },
+	
+	        destroy: function destroy() {
+	          module.debug('Destroying previous module');
+	          if (documentObserver) {
+	            documentObserver.disconnect();
+	          }
+	          // remove element only if was created dynamically
+	          if ($popup && !settings.preserve) {
+	            module.removePopup();
+	          }
+	          // clear all timeouts
+	          clearTimeout(module.hideTimer);
+	          clearTimeout(module.showTimer);
+	          // remove events
+	          module.unbind.close();
+	          module.unbind.events();
+	          $module.removeData(moduleNamespace);
+	        },
+	
+	        event: {
+	          start: function start(event) {
+	            var delay = $.isPlainObject(settings.delay) ? settings.delay.show : settings.delay;
+	            clearTimeout(module.hideTimer);
+	            if (!openedWithTouch) {
+	              module.showTimer = setTimeout(module.show, delay);
+	            }
+	          },
+	          end: function end() {
+	            var delay = $.isPlainObject(settings.delay) ? settings.delay.hide : settings.delay;
+	            clearTimeout(module.showTimer);
+	            module.hideTimer = setTimeout(module.hide, delay);
+	          },
+	          touchstart: function touchstart(event) {
+	            openedWithTouch = true;
+	            module.show();
+	          },
+	          resize: function resize() {
+	            if (module.is.visible()) {
+	              module.set.position();
+	            }
+	          },
+	          documentChanged: function documentChanged(mutations) {
+	            [].forEach.call(mutations, function (mutation) {
+	              if (mutation.removedNodes) {
+	                [].forEach.call(mutation.removedNodes, function (node) {
+	                  if (node == element || $(node).find(element).length > 0) {
+	                    module.debug('Element removed from DOM, tearing down events');
+	                    module.destroy();
+	                  }
+	                });
+	              }
+	            });
+	          },
+	          hideGracefully: function hideGracefully(event) {
+	            var $target = $(event.target),
+	                isInDOM = $.contains(document.documentElement, event.target),
+	                inPopup = $target.closest(selector.popup).length > 0;
+	            // don't close on clicks inside popup
+	            if (event && !inPopup && isInDOM) {
+	              module.debug('Click occurred outside popup hiding popup');
+	              module.hide();
+	            } else {
+	              module.debug('Click was inside popup, keeping popup open');
+	            }
+	          }
+	        },
+	
+	        // generates popup html from metadata
+	        create: function create() {
+	          var html = module.get.html(),
+	              title = module.get.title(),
+	              content = module.get.content();
+	
+	          if (html || content || title) {
+	            module.debug('Creating pop-up html');
+	            if (!html) {
+	              html = settings.templates.popup({
+	                title: title,
+	                content: content
+	              });
+	            }
+	            $popup = $('<div/>').addClass(className.popup).data(metadata.activator, $module).html(html);
+	            if (settings.inline) {
+	              module.verbose('Inserting popup element inline', $popup);
+	              $popup.insertAfter($module);
+	            } else {
+	              module.verbose('Appending popup element to body', $popup);
+	              $popup.appendTo($context);
+	            }
+	            module.refresh();
+	            module.set.variation();
+	
+	            if (settings.hoverable) {
+	              module.bind.popup();
+	            }
+	            settings.onCreate.call($popup, element);
+	          } else if ($target.next(selector.popup).length !== 0) {
+	            module.verbose('Pre-existing popup found');
+	            settings.inline = true;
+	            settings.popup = $target.next(selector.popup).data(metadata.activator, $module);
+	            module.refresh();
+	            if (settings.hoverable) {
+	              module.bind.popup();
+	            }
+	          } else if (settings.popup) {
+	            $(settings.popup).data(metadata.activator, $module);
+	            module.verbose('Used popup specified in settings');
+	            module.refresh();
+	            if (settings.hoverable) {
+	              module.bind.popup();
+	            }
+	          } else {
+	            module.debug('No content specified skipping display', element);
+	          }
+	        },
+	
+	        createID: function createID() {
+	          _id = (Math.random().toString(16) + '000000000').substr(2, 8);
+	          elementNamespace = '.' + _id;
+	          module.verbose('Creating unique id for element', _id);
+	        },
+	
+	        // determines popup state
+	        toggle: function toggle() {
+	          module.debug('Toggling pop-up');
+	          if (module.is.hidden()) {
+	            module.debug('Popup is hidden, showing pop-up');
+	            module.unbind.close();
+	            module.show();
+	          } else {
+	            module.debug('Popup is visible, hiding pop-up');
+	            module.hide();
+	          }
+	        },
+	
+	        show: function show(callback) {
+	          callback = callback || function () {};
+	          module.debug('Showing pop-up', settings.transition);
+	          if (module.is.hidden() && !(module.is.active() && module.is.dropdown())) {
+	            if (!module.exists()) {
+	              module.create();
+	            }
+	            if (settings.onShow.call($popup, element) === false) {
+	              module.debug('onShow callback returned false, cancelling popup animation');
+	              return;
+	            } else if (!settings.preserve && !settings.popup) {
+	              module.refresh();
+	            }
+	            if ($popup && module.set.position()) {
+	              module.save.conditions();
+	              if (settings.exclusive) {
+	                module.hideAll();
+	              }
+	              module.animate.show(callback);
+	            }
+	          }
+	        },
+	
+	        hide: function hide(callback) {
+	          callback = callback || function () {};
+	          if (module.is.visible() || module.is.animating()) {
+	            if (settings.onHide.call($popup, element) === false) {
+	              module.debug('onHide callback returned false, cancelling popup animation');
+	              return;
+	            }
+	            module.remove.visible();
+	            module.unbind.close();
+	            module.restore.conditions();
+	            module.animate.hide(callback);
+	          }
+	        },
+	
+	        hideAll: function hideAll() {
+	          $(selector.popup).filter('.' + className.visible).each(function () {
+	            $(this).data(metadata.activator).popup('hide');
+	          });
+	        },
+	        exists: function exists() {
+	          if (!$popup) {
+	            return false;
+	          }
+	          if (settings.inline || settings.popup) {
+	            return module.has.popup();
+	          } else {
+	            return $popup.closest($context).length >= 1 ? true : false;
+	          }
+	        },
+	
+	        removePopup: function removePopup() {
+	          if (module.has.popup() && !settings.popup) {
+	            module.debug('Removing popup', $popup);
+	            $popup.remove();
+	            $popup = undefined;
+	            settings.onRemove.call($popup, element);
+	          }
+	        },
+	
+	        save: {
+	          conditions: function conditions() {
+	            module.cache = {
+	              title: $module.attr('title')
+	            };
+	            if (module.cache.title) {
+	              $module.removeAttr('title');
+	            }
+	            module.verbose('Saving original attributes', module.cache.title);
+	          }
+	        },
+	        restore: {
+	          conditions: function conditions() {
+	            if (module.cache && module.cache.title) {
+	              $module.attr('title', module.cache.title);
+	              module.verbose('Restoring original attributes', module.cache.title);
+	            }
+	            return true;
+	          }
+	        },
+	        supports: {
+	          svg: function svg() {
+	            return (typeof SVGGraphicsElement === 'undefined' ? 'undefined' : _typeof(SVGGraphicsElement)) === undefined;
+	          }
+	        },
+	        animate: {
+	          show: function show(callback) {
+	            callback = $.isFunction(callback) ? callback : function () {};
+	            if (settings.transition && $.fn.transition !== undefined && $module.transition('is supported')) {
+	              module.set.visible();
+	              $popup.transition({
+	                animation: settings.transition + ' in',
+	                queue: false,
+	                debug: settings.debug,
+	                verbose: settings.verbose,
+	                duration: settings.duration,
+	                onComplete: function onComplete() {
+	                  module.bind.close();
+	                  callback.call($popup, element);
+	                  settings.onVisible.call($popup, element);
+	                }
+	              });
+	            } else {
+	              module.error(error.noTransition);
+	            }
+	          },
+	          hide: function hide(callback) {
+	            callback = $.isFunction(callback) ? callback : function () {};
+	            module.debug('Hiding pop-up');
+	            if (settings.onHide.call($popup, element) === false) {
+	              module.debug('onHide callback returned false, cancelling popup animation');
+	              return;
+	            }
+	            if (settings.transition && $.fn.transition !== undefined && $module.transition('is supported')) {
+	              $popup.transition({
+	                animation: settings.transition + ' out',
+	                queue: false,
+	                duration: settings.duration,
+	                debug: settings.debug,
+	                verbose: settings.verbose,
+	                onComplete: function onComplete() {
+	                  module.reset();
+	                  callback.call($popup, element);
+	                  settings.onHidden.call($popup, element);
+	                }
+	              });
+	            } else {
+	              module.error(error.noTransition);
+	            }
+	          }
+	        },
+	
+	        change: {
+	          content: function content(html) {
+	            $popup.html(html);
+	          }
+	        },
+	
+	        get: {
+	          html: function html() {
+	            $module.removeData(metadata.html);
+	            return $module.data(metadata.html) || settings.html;
+	          },
+	          title: function title() {
+	            $module.removeData(metadata.title);
+	            return $module.data(metadata.title) || settings.title;
+	          },
+	          content: function content() {
+	            $module.removeData(metadata.content);
+	            return $module.data(metadata.content) || $module.attr('title') || settings.content;
+	          },
+	          variation: function variation() {
+	            $module.removeData(metadata.variation);
+	            return $module.data(metadata.variation) || settings.variation;
+	          },
+	          popup: function popup() {
+	            return $popup;
+	          },
+	          popupOffset: function popupOffset() {
+	            return $popup.offset();
+	          },
+	          calculations: function calculations() {
+	            var targetElement = $target[0],
+	                isWindow = $boundary[0] == window,
+	                targetPosition = settings.inline || settings.popup && settings.movePopup ? $target.position() : $target.offset(),
+	                screenPosition = isWindow ? { top: 0, left: 0 } : $boundary.offset(),
+	                calculations = {},
+	                scroll = isWindow ? { top: $window.scrollTop(), left: $window.scrollLeft() } : { top: 0, left: 0 },
+	                screen;
+	            calculations = {
+	              // element which is launching popup
+	              target: {
+	                element: $target[0],
+	                width: $target.outerWidth(),
+	                height: $target.outerHeight(),
+	                top: targetPosition.top,
+	                left: targetPosition.left,
+	                margin: {}
+	              },
+	              // popup itself
+	              popup: {
+	                width: $popup.outerWidth(),
+	                height: $popup.outerHeight()
+	              },
+	              // offset container (or 3d context)
+	              parent: {
+	                width: $offsetParent.outerWidth(),
+	                height: $offsetParent.outerHeight()
+	              },
+	              // screen boundaries
+	              screen: {
+	                top: screenPosition.top,
+	                left: screenPosition.left,
+	                scroll: {
+	                  top: scroll.top,
+	                  left: scroll.left
+	                },
+	                width: $boundary.width(),
+	                height: $boundary.height()
+	              }
+	            };
+	
+	            // add in container calcs if fluid
+	            if (settings.setFluidWidth && module.is.fluid()) {
+	              calculations.container = {
+	                width: $popup.parent().outerWidth()
+	              };
+	              calculations.popup.width = calculations.container.width;
+	            }
+	
+	            // add in margins if inline
+	            calculations.target.margin.top = settings.inline ? parseInt(window.getComputedStyle(targetElement).getPropertyValue('margin-top'), 10) : 0;
+	            calculations.target.margin.left = settings.inline ? module.is.rtl() ? parseInt(window.getComputedStyle(targetElement).getPropertyValue('margin-right'), 10) : parseInt(window.getComputedStyle(targetElement).getPropertyValue('margin-left'), 10) : 0;
+	            // calculate screen boundaries
+	            screen = calculations.screen;
+	            calculations.boundary = {
+	              top: screen.top + screen.scroll.top,
+	              bottom: screen.top + screen.scroll.top + screen.height,
+	              left: screen.left + screen.scroll.left,
+	              right: screen.left + screen.scroll.left + screen.width
+	            };
+	            return calculations;
+	          },
+	          id: function id() {
+	            return _id;
+	          },
+	          startEvent: function startEvent() {
+	            if (settings.on == 'hover') {
+	              return 'mouseenter';
+	            } else if (settings.on == 'focus') {
+	              return 'focus';
+	            }
+	            return false;
+	          },
+	          scrollEvent: function scrollEvent() {
+	            return 'scroll';
+	          },
+	          endEvent: function endEvent() {
+	            if (settings.on == 'hover') {
+	              return 'mouseleave';
+	            } else if (settings.on == 'focus') {
+	              return 'blur';
+	            }
+	            return false;
+	          },
+	          distanceFromBoundary: function distanceFromBoundary(offset, calculations) {
+	            var distanceFromBoundary = {},
+	                popup,
+	                boundary;
+	            calculations = calculations || module.get.calculations();
+	
+	            // shorthand
+	            popup = calculations.popup;
+	            boundary = calculations.boundary;
+	
+	            if (offset) {
+	              distanceFromBoundary = {
+	                top: offset.top - boundary.top,
+	                left: offset.left - boundary.left,
+	                right: boundary.right - (offset.left + popup.width),
+	                bottom: boundary.bottom - (offset.top + popup.height)
+	              };
+	              module.verbose('Distance from boundaries determined', offset, distanceFromBoundary);
+	            }
+	            return distanceFromBoundary;
+	          },
+	          offsetParent: function offsetParent($target) {
+	            var element = $target !== undefined ? $target[0] : $module[0],
+	                parentNode = element.parentNode,
+	                $node = $(parentNode);
+	            if (parentNode) {
+	              var is2D = $node.css('transform') === 'none',
+	                  isStatic = $node.css('position') === 'static',
+	                  isHTML = $node.is('html');
+	              while (parentNode && !isHTML && isStatic && is2D) {
+	                parentNode = parentNode.parentNode;
+	                $node = $(parentNode);
+	                is2D = $node.css('transform') === 'none';
+	                isStatic = $node.css('position') === 'static';
+	                isHTML = $node.is('html');
+	              }
+	            }
+	            return $node && $node.length > 0 ? $node : $();
+	          },
+	          positions: function positions() {
+	            return {
+	              'top left': false,
+	              'top center': false,
+	              'top right': false,
+	              'bottom left': false,
+	              'bottom center': false,
+	              'bottom right': false,
+	              'left center': false,
+	              'right center': false
+	            };
+	          },
+	          nextPosition: function nextPosition(position) {
+	            var positions = position.split(' '),
+	                verticalPosition = positions[0],
+	                horizontalPosition = positions[1],
+	                opposite = {
+	              top: 'bottom',
+	              bottom: 'top',
+	              left: 'right',
+	              right: 'left'
+	            },
+	                adjacent = {
+	              left: 'center',
+	              center: 'right',
+	              right: 'left'
+	            },
+	                backup = {
+	              'top left': 'top center',
+	              'top center': 'top right',
+	              'top right': 'right center',
+	              'right center': 'bottom right',
+	              'bottom right': 'bottom center',
+	              'bottom center': 'bottom left',
+	              'bottom left': 'left center',
+	              'left center': 'top left'
+	            },
+	                adjacentsAvailable = verticalPosition == 'top' || verticalPosition == 'bottom',
+	                oppositeTried = false,
+	                adjacentTried = false,
+	                nextPosition = false;
+	            if (!triedPositions) {
+	              module.verbose('All available positions available');
+	              triedPositions = module.get.positions();
+	            }
+	
+	            module.debug('Recording last position tried', position);
+	            triedPositions[position] = true;
+	
+	            if (settings.prefer === 'opposite') {
+	              nextPosition = [opposite[verticalPosition], horizontalPosition];
+	              nextPosition = nextPosition.join(' ');
+	              oppositeTried = triedPositions[nextPosition] === true;
+	              module.debug('Trying opposite strategy', nextPosition);
+	            }
+	            if (settings.prefer === 'adjacent' && adjacentsAvailable) {
+	              nextPosition = [verticalPosition, adjacent[horizontalPosition]];
+	              nextPosition = nextPosition.join(' ');
+	              adjacentTried = triedPositions[nextPosition] === true;
+	              module.debug('Trying adjacent strategy', nextPosition);
+	            }
+	            if (adjacentTried || oppositeTried) {
+	              module.debug('Using backup position', nextPosition);
+	              nextPosition = backup[position];
+	            }
+	            return nextPosition;
+	          }
+	        },
+	
+	        set: {
+	          position: function position(_position, calculations) {
+	
+	            // exit conditions
+	            if ($target.length === 0 || $popup.length === 0) {
+	              module.error(error.notFound);
+	              return;
+	            }
+	            var offset, distanceAway, target, popup, parent, positioning, popupOffset, distanceFromBoundary;
+	
+	            calculations = calculations || module.get.calculations();
+	            _position = _position || $module.data(metadata.position) || settings.position;
+	
+	            offset = $module.data(metadata.offset) || settings.offset;
+	            distanceAway = settings.distanceAway;
+	
+	            // shorthand
+	            target = calculations.target;
+	            popup = calculations.popup;
+	            parent = calculations.parent;
+	
+	            if (target.width === 0 && target.height === 0 && !module.is.svg(target.element)) {
+	              module.debug('Popup target is hidden, no action taken');
+	              return false;
+	            }
+	
+	            if (settings.inline) {
+	              module.debug('Adding margin to calculation', target.margin);
+	              if (_position == 'left center' || _position == 'right center') {
+	                offset += target.margin.top;
+	                distanceAway += -target.margin.left;
+	              } else if (_position == 'top left' || _position == 'top center' || _position == 'top right') {
+	                offset += target.margin.left;
+	                distanceAway -= target.margin.top;
+	              } else {
+	                offset += target.margin.left;
+	                distanceAway += target.margin.top;
+	              }
+	            }
+	
+	            module.debug('Determining popup position from calculations', _position, calculations);
+	
+	            if (module.is.rtl()) {
+	              _position = _position.replace(/left|right/g, function (match) {
+	                return match == 'left' ? 'right' : 'left';
+	              });
+	              module.debug('RTL: Popup position updated', _position);
+	            }
+	
+	            // if last attempt use specified last resort position
+	            if (searchDepth == settings.maxSearchDepth && typeof settings.lastResort === 'string') {
+	              _position = settings.lastResort;
+	            }
+	
+	            switch (_position) {
+	              case 'top left':
+	                positioning = {
+	                  top: 'auto',
+	                  bottom: parent.height - target.top + distanceAway,
+	                  left: target.left + offset,
+	                  right: 'auto'
+	                };
+	                break;
+	              case 'top center':
+	                positioning = {
+	                  bottom: parent.height - target.top + distanceAway,
+	                  left: target.left + target.width / 2 - popup.width / 2 + offset,
+	                  top: 'auto',
+	                  right: 'auto'
+	                };
+	                break;
+	              case 'top right':
+	                positioning = {
+	                  bottom: parent.height - target.top + distanceAway,
+	                  right: parent.width - target.left - target.width - offset,
+	                  top: 'auto',
+	                  left: 'auto'
+	                };
+	                break;
+	              case 'left center':
+	                positioning = {
+	                  top: target.top + target.height / 2 - popup.height / 2 + offset,
+	                  right: parent.width - target.left + distanceAway,
+	                  left: 'auto',
+	                  bottom: 'auto'
+	                };
+	                break;
+	              case 'right center':
+	                positioning = {
+	                  top: target.top + target.height / 2 - popup.height / 2 + offset,
+	                  left: target.left + target.width + distanceAway,
+	                  bottom: 'auto',
+	                  right: 'auto'
+	                };
+	                break;
+	              case 'bottom left':
+	                positioning = {
+	                  top: target.top + target.height + distanceAway,
+	                  left: target.left + offset,
+	                  bottom: 'auto',
+	                  right: 'auto'
+	                };
+	                break;
+	              case 'bottom center':
+	                positioning = {
+	                  top: target.top + target.height + distanceAway,
+	                  left: target.left + target.width / 2 - popup.width / 2 + offset,
+	                  bottom: 'auto',
+	                  right: 'auto'
+	                };
+	                break;
+	              case 'bottom right':
+	                positioning = {
+	                  top: target.top + target.height + distanceAway,
+	                  right: parent.width - target.left - target.width - offset,
+	                  left: 'auto',
+	                  bottom: 'auto'
+	                };
+	                break;
+	            }
+	            if (positioning === undefined) {
+	              module.error(error.invalidPosition, _position);
+	            }
+	
+	            module.debug('Calculated popup positioning values', positioning);
+	
+	            // tentatively place on stage
+	            $popup.css(positioning).removeClass(className.position).addClass(_position).addClass(className.loading);
+	
+	            popupOffset = module.get.popupOffset();
+	
+	            // see if any boundaries are surpassed with this tentative position
+	            distanceFromBoundary = module.get.distanceFromBoundary(popupOffset, calculations);
+	
+	            if (module.is.offstage(distanceFromBoundary, _position)) {
+	              module.debug('Position is outside viewport', _position);
+	              if (searchDepth < settings.maxSearchDepth) {
+	                searchDepth++;
+	                _position = module.get.nextPosition(_position);
+	                module.debug('Trying new position', _position);
+	                return $popup ? module.set.position(_position, calculations) : false;
+	              } else {
+	                if (settings.lastResort) {
+	                  module.debug('No position found, showing with last position');
+	                } else {
+	                  module.debug('Popup could not find a position to display', $popup);
+	                  module.error(error.cannotPlace, element);
+	                  module.remove.attempts();
+	                  module.remove.loading();
+	                  module.reset();
+	                  settings.onUnplaceable.call($popup, element);
+	                  return false;
+	                }
+	              }
+	            }
+	            module.debug('Position is on stage', _position);
+	            module.remove.attempts();
+	            module.remove.loading();
+	            if (settings.setFluidWidth && module.is.fluid()) {
+	              module.set.fluidWidth(calculations);
+	            }
+	            return true;
+	          },
+	
+	          fluidWidth: function fluidWidth(calculations) {
+	            calculations = calculations || module.get.calculations();
+	            module.debug('Automatically setting element width to parent width', calculations.parent.width);
+	            $popup.css('width', calculations.container.width);
+	          },
+	
+	          variation: function variation(_variation) {
+	            _variation = _variation || module.get.variation();
+	            if (_variation && module.has.popup()) {
+	              module.verbose('Adding variation to popup', _variation);
+	              $popup.addClass(_variation);
+	            }
+	          },
+	
+	          visible: function visible() {
+	            $module.addClass(className.visible);
+	          }
+	        },
+	
+	        remove: {
+	          loading: function loading() {
+	            $popup.removeClass(className.loading);
+	          },
+	          variation: function variation(_variation2) {
+	            _variation2 = _variation2 || module.get.variation();
+	            if (_variation2) {
+	              module.verbose('Removing variation', _variation2);
+	              $popup.removeClass(_variation2);
+	            }
+	          },
+	          visible: function visible() {
+	            $module.removeClass(className.visible);
+	          },
+	          attempts: function attempts() {
+	            module.verbose('Resetting all searched positions');
+	            searchDepth = 0;
+	            triedPositions = false;
+	          }
+	        },
+	
+	        bind: {
+	          events: function events() {
+	            module.debug('Binding popup events to module');
+	            if (settings.on == 'click') {
+	              $module.on('click' + eventNamespace, module.toggle);
+	            }
+	            if (settings.on == 'hover' && hasTouch) {
+	              $module.on('touchstart' + eventNamespace, module.event.touchstart);
+	            }
+	            if (module.get.startEvent()) {
+	              $module.on(module.get.startEvent() + eventNamespace, module.event.start).on(module.get.endEvent() + eventNamespace, module.event.end);
+	            }
+	            if (settings.target) {
+	              module.debug('Target set to element', $target);
+	            }
+	            $window.on('resize' + elementNamespace, module.event.resize);
+	          },
+	          popup: function popup() {
+	            module.verbose('Allowing hover events on popup to prevent closing');
+	            if ($popup && module.has.popup()) {
+	              $popup.on('mouseenter' + eventNamespace, module.event.start).on('mouseleave' + eventNamespace, module.event.end);
+	            }
+	          },
+	          close: function close() {
+	            if (settings.hideOnScroll === true || settings.hideOnScroll == 'auto' && settings.on != 'click') {
+	              $scrollContext.one(module.get.scrollEvent() + elementNamespace, module.event.hideGracefully);
+	            }
+	            if (settings.on == 'hover' && openedWithTouch) {
+	              module.verbose('Binding popup close event to document');
+	              $document.on('touchstart' + elementNamespace, function (event) {
+	                module.verbose('Touched away from popup');
+	                module.event.hideGracefully.call(element, event);
+	              });
+	            }
+	            if (settings.on == 'click' && settings.closable) {
+	              module.verbose('Binding popup close event to document');
+	              $document.on('click' + elementNamespace, function (event) {
+	                module.verbose('Clicked away from popup');
+	                module.event.hideGracefully.call(element, event);
+	              });
+	            }
+	          }
+	        },
+	
+	        unbind: {
+	          events: function events() {
+	            $window.off(elementNamespace);
+	            $module.off(eventNamespace);
+	          },
+	          close: function close() {
+	            $document.off(elementNamespace);
+	            $scrollContext.off(elementNamespace);
+	          }
+	        },
+	
+	        has: {
+	          popup: function popup() {
+	            return $popup && $popup.length > 0;
+	          }
+	        },
+	
+	        is: {
+	          offstage: function offstage(distanceFromBoundary, position) {
+	            var offstage = [];
+	            // return boundaries that have been surpassed
+	            $.each(distanceFromBoundary, function (direction, distance) {
+	              if (distance < -settings.jitter) {
+	                module.debug('Position exceeds allowable distance from edge', direction, distance, position);
+	                offstage.push(direction);
+	              }
+	            });
+	            if (offstage.length > 0) {
+	              return true;
+	            } else {
+	              return false;
+	            }
+	          },
+	          svg: function svg(element) {
+	            return module.supports.svg() && element instanceof SVGGraphicsElement;
+	          },
+	          active: function active() {
+	            return $module.hasClass(className.active);
+	          },
+	          animating: function animating() {
+	            return $popup !== undefined && $popup.hasClass(className.animating);
+	          },
+	          fluid: function fluid() {
+	            return $popup !== undefined && $popup.hasClass(className.fluid);
+	          },
+	          visible: function visible() {
+	            return $popup !== undefined && $popup.hasClass(className.visible);
+	          },
+	          dropdown: function dropdown() {
+	            return $module.hasClass(className.dropdown);
+	          },
+	          hidden: function hidden() {
+	            return !module.is.visible();
+	          },
+	          rtl: function rtl() {
+	            return $module.css('direction') == 'rtl';
+	          }
+	        },
+	
+	        reset: function reset() {
+	          module.remove.visible();
+	          if (settings.preserve) {
+	            if ($.fn.transition !== undefined) {
+	              $popup.transition('remove transition');
+	            }
+	          } else {
+	            module.removePopup();
+	          }
+	        },
+	
+	        setting: function setting(name, value) {
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, settings, name);
+	          } else if (value !== undefined) {
+	            settings[name] = value;
+	          } else {
+	            return settings[name];
+	          }
+	        },
+	        internal: function internal(name, value) {
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, module, name);
+	          } else if (value !== undefined) {
+	            module[name] = value;
+	          } else {
+	            return module[name];
+	          }
+	        },
+	        debug: function debug() {
+	          if (!settings.silent && settings.debug) {
+	            if (settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.debug = Function.prototype.bind.call(console.info, console, settings.name + ':');
+	              module.debug.apply(console, arguments);
+	            }
+	          }
+	        },
+	        verbose: function verbose() {
+	          if (!settings.silent && settings.verbose && settings.debug) {
+	            if (settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.verbose = Function.prototype.bind.call(console.info, console, settings.name + ':');
+	              module.verbose.apply(console, arguments);
+	            }
+	          }
+	        },
+	        error: function error() {
+	          if (!settings.silent) {
+	            module.error = Function.prototype.bind.call(console.error, console, settings.name + ':');
+	            module.error.apply(console, arguments);
+	          }
+	        },
+	        performance: {
+	          log: function log(message) {
+	            var currentTime, executionTime, previousTime;
+	            if (settings.performance) {
+	              currentTime = new Date().getTime();
+	              previousTime = time || currentTime;
+	              executionTime = currentTime - previousTime;
+	              time = currentTime;
+	              performance.push({
+	                'Name': message[0],
+	                'Arguments': [].slice.call(message, 1) || '',
+	                'Element': element,
+	                'Execution Time': executionTime
+	              });
+	            }
+	            clearTimeout(module.performance.timer);
+	            module.performance.timer = setTimeout(module.performance.display, 500);
+	          },
+	          display: function display() {
+	            var title = settings.name + ':',
+	                totalTime = 0;
+	            time = false;
+	            clearTimeout(module.performance.timer);
+	            $.each(performance, function (index, data) {
+	              totalTime += data['Execution Time'];
+	            });
+	            title += ' ' + totalTime + 'ms';
+	            if (moduleSelector) {
+	              title += ' \'' + moduleSelector + '\'';
+	            }
+	            if ((console.group !== undefined || console.table !== undefined) && performance.length > 0) {
+	              console.groupCollapsed(title);
+	              if (console.table) {
+	                console.table(performance);
+	              } else {
+	                $.each(performance, function (index, data) {
+	                  console.log(data['Name'] + ': ' + data['Execution Time'] + 'ms');
+	                });
+	              }
+	              console.groupEnd();
+	            }
+	            performance = [];
+	          }
+	        },
+	        invoke: function invoke(query, passedArguments, context) {
+	          var object = instance,
+	              maxDepth,
+	              found,
+	              response;
+	          passedArguments = passedArguments || queryArguments;
+	          context = element || context;
+	          if (typeof query == 'string' && object !== undefined) {
+	            query = query.split(/[\. ]/);
+	            maxDepth = query.length - 1;
+	            $.each(query, function (depth, value) {
+	              var camelCaseValue = depth != maxDepth ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1) : query;
+	              if ($.isPlainObject(object[camelCaseValue]) && depth != maxDepth) {
+	                object = object[camelCaseValue];
+	              } else if (object[camelCaseValue] !== undefined) {
+	                found = object[camelCaseValue];
+	                return false;
+	              } else if ($.isPlainObject(object[value]) && depth != maxDepth) {
+	                object = object[value];
+	              } else if (object[value] !== undefined) {
+	                found = object[value];
+	                return false;
+	              } else {
+	                return false;
+	              }
+	            });
+	          }
+	          if ($.isFunction(found)) {
+	            response = found.apply(context, passedArguments);
+	          } else if (found !== undefined) {
+	            response = found;
+	          }
+	          if ($.isArray(returnedValue)) {
+	            returnedValue.push(response);
+	          } else if (returnedValue !== undefined) {
+	            returnedValue = [returnedValue, response];
+	          } else if (response !== undefined) {
+	            returnedValue = response;
+	          }
+	          return found;
+	        }
+	      };
+	
+	      if (methodInvoked) {
+	        if (instance === undefined) {
+	          module.initialize();
+	        }
+	        module.invoke(query);
+	      } else {
+	        if (instance !== undefined) {
+	          instance.invoke('destroy');
+	        }
+	        module.initialize();
+	      }
+	    });
+	
+	    return returnedValue !== undefined ? returnedValue : this;
+	  };
+	
+	  $.fn.popup.settings = {
+	
+	    name: 'Popup',
+	
+	    // module settings
+	    silent: false,
+	    debug: false,
+	    verbose: false,
+	    performance: true,
+	    namespace: 'popup',
+	
+	    // whether it should use dom mutation observers
+	    observeChanges: true,
+	
+	    // callback only when element added to dom
+	    onCreate: function onCreate() {},
+	
+	    // callback before element removed from dom
+	    onRemove: function onRemove() {},
+	
+	    // callback before show animation
+	    onShow: function onShow() {},
+	
+	    // callback after show animation
+	    onVisible: function onVisible() {},
+	
+	    // callback before hide animation
+	    onHide: function onHide() {},
+	
+	    // callback when popup cannot be positioned in visible screen
+	    onUnplaceable: function onUnplaceable() {},
+	
+	    // callback after hide animation
+	    onHidden: function onHidden() {},
+	
+	    // when to show popup
+	    on: 'hover',
+	
+	    // element to use to determine if popup is out of boundary
+	    boundary: window,
+	
+	    // whether to add touchstart events when using hover
+	    addTouchEvents: true,
+	
+	    // default position relative to element
+	    position: 'top left',
+	
+	    // name of variation to use
+	    variation: '',
+	
+	    // whether popup should be moved to context
+	    movePopup: true,
+	
+	    // element which popup should be relative to
+	    target: false,
+	
+	    // jq selector or element that should be used as popup
+	    popup: false,
+	
+	    // popup should remain inline next to activator
+	    inline: false,
+	
+	    // popup should be removed from page on hide
+	    preserve: false,
+	
+	    // popup should not close when being hovered on
+	    hoverable: false,
+	
+	    // explicitly set content
+	    content: false,
+	
+	    // explicitly set html
+	    html: false,
+	
+	    // explicitly set title
+	    title: false,
+	
+	    // whether automatically close on clickaway when on click
+	    closable: true,
+	
+	    // automatically hide on scroll
+	    hideOnScroll: 'auto',
+	
+	    // hide other popups on show
+	    exclusive: false,
+	
+	    // context to attach popups
+	    context: 'body',
+	
+	    // context for binding scroll events
+	    scrollContext: window,
+	
+	    // position to prefer when calculating new position
+	    prefer: 'opposite',
+	
+	    // specify position to appear even if it doesn't fit
+	    lastResort: false,
+	
+	    // delay used to prevent accidental refiring of animations due to user error
+	    delay: {
+	      show: 50,
+	      hide: 70
+	    },
+	
+	    // whether fluid variation should assign width explicitly
+	    setFluidWidth: true,
+	
+	    // transition settings
+	    duration: 200,
+	    transition: 'scale',
+	
+	    // distance away from activating element in px
+	    distanceAway: 0,
+	
+	    // number of pixels an element is allowed to be "offstage" for a position to be chosen (allows for rounding)
+	    jitter: 2,
+	
+	    // offset on aligning axis from calculated position
+	    offset: 0,
+	
+	    // maximum times to look for a position before failing (9 positions total)
+	    maxSearchDepth: 15,
+	
+	    error: {
+	      invalidPosition: 'The position you specified is not a valid position',
+	      cannotPlace: 'Popup does not fit within the boundaries of the viewport',
+	      method: 'The method you called is not defined.',
+	      noTransition: 'This module requires ui transitions <https://github.com/Semantic-Org/UI-Transition>',
+	      notFound: 'The target or popup you specified does not exist on the page'
+	    },
+	
+	    metadata: {
+	      activator: 'activator',
+	      content: 'content',
+	      html: 'html',
+	      offset: 'offset',
+	      position: 'position',
+	      title: 'title',
+	      variation: 'variation'
+	    },
+	
+	    className: {
+	      active: 'active',
+	      animating: 'animating',
+	      dropdown: 'dropdown',
+	      fluid: 'fluid',
+	      loading: 'loading',
+	      popup: 'ui popup',
+	      position: 'top left center bottom right',
+	      visible: 'visible'
+	    },
+	
+	    selector: {
+	      popup: '.ui.popup'
+	    },
+	
+	    templates: {
+	      escape: function escape(string) {
+	        var badChars = /[&<>"'`]/g,
+	            shouldEscape = /[&<>"'`]/,
+	            escape = {
+	          "&": "&amp;",
+	          "<": "&lt;",
+	          ">": "&gt;",
+	          '"': "&quot;",
+	          "'": "&#x27;",
+	          "`": "&#x60;"
+	        },
+	            escapedChar = function escapedChar(chr) {
+	          return escape[chr];
+	        };
+	        if (shouldEscape.test(string)) {
+	          return string.replace(badChars, escapedChar);
+	        }
+	        return string;
+	      },
+	      popup: function popup(text) {
+	        var html = '',
+	            escape = $.fn.popup.settings.templates.escape;
+	        if ((typeof text === 'undefined' ? 'undefined' : _typeof(text)) !== undefined) {
+	          if (_typeof(text.title) !== undefined && text.title) {
+	            text.title = escape(text.title);
+	            html += '<div class="header">' + text.title + '</div>';
+	          }
+	          if (_typeof(text.content) !== undefined && text.content) {
+	            text.content = escape(text.content);
+	            html += '<div class="content">' + text.content + '</div>';
+	          }
+	        }
+	        return html;
+	      }
+	    }
+	
+	  };
+	})(jQuery, window, document);
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/*!
+	 * # Semantic UI 2.2.2 - Sticky
+	 * http://github.com/semantic-org/semantic-ui/
+	 *
+	 *
+	 * Released under the MIT license
+	 * http://opensource.org/licenses/MIT
+	 *
+	 */
+	
+	;(function ($, window, document, undefined) {
+	
+	  "use strict";
+	
+	  window = typeof window != 'undefined' && window.Math == Math ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	
+	  $.fn.sticky = function (parameters) {
+	    var $allModules = $(this),
+	        moduleSelector = $allModules.selector || '',
+	        time = new Date().getTime(),
+	        performance = [],
+	        query = arguments[0],
+	        methodInvoked = typeof query == 'string',
+	        queryArguments = [].slice.call(arguments, 1),
+	        returnedValue;
+	
+	    $allModules.each(function () {
+	      var settings = $.isPlainObject(parameters) ? $.extend(true, {}, $.fn.sticky.settings, parameters) : $.extend({}, $.fn.sticky.settings),
+	          className = settings.className,
+	          namespace = settings.namespace,
+	          error = settings.error,
+	          eventNamespace = '.' + namespace,
+	          moduleNamespace = 'module-' + namespace,
+	          $module = $(this),
+	          $window = $(window),
+	          $scroll = $(settings.scrollContext),
+	          $container,
+	          $context,
+	          selector = $module.selector || '',
+	          instance = $module.data(moduleNamespace),
+	          requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
+	        setTimeout(callback, 0);
+	      },
+	          element = this,
+	          documentObserver,
+	          observer,
+	          module;
+	
+	      module = {
+	
+	        initialize: function initialize() {
+	
+	          module.determineContainer();
+	          module.determineContext();
+	          module.verbose('Initializing sticky', settings, $container);
+	
+	          module.save.positions();
+	          module.checkErrors();
+	          module.bind.events();
+	
+	          if (settings.observeChanges) {
+	            module.observeChanges();
+	          }
+	          module.instantiate();
+	        },
+	
+	        instantiate: function instantiate() {
+	          module.verbose('Storing instance of module', module);
+	          instance = module;
+	          $module.data(moduleNamespace, module);
+	        },
+	
+	        destroy: function destroy() {
+	          module.verbose('Destroying previous instance');
+	          module.reset();
+	          if (documentObserver) {
+	            documentObserver.disconnect();
+	          }
+	          if (observer) {
+	            observer.disconnect();
+	          }
+	          $window.off('load' + eventNamespace, module.event.load).off('resize' + eventNamespace, module.event.resize);
+	          $scroll.off('scrollchange' + eventNamespace, module.event.scrollchange);
+	          $module.removeData(moduleNamespace);
+	        },
+	
+	        observeChanges: function observeChanges() {
+	          if ('MutationObserver' in window) {
+	            documentObserver = new MutationObserver(module.event.documentChanged);
+	            observer = new MutationObserver(module.event.changed);
+	            documentObserver.observe(document, {
+	              childList: true,
+	              subtree: true
+	            });
+	            observer.observe(element, {
+	              childList: true,
+	              subtree: true
+	            });
+	            observer.observe($context[0], {
+	              childList: true,
+	              subtree: true
+	            });
+	            module.debug('Setting up mutation observer', observer);
+	          }
+	        },
+	
+	        determineContainer: function determineContainer() {
+	          $container = $module.offsetParent();
+	        },
+	
+	        determineContext: function determineContext() {
+	          if (settings.context) {
+	            $context = $(settings.context);
+	          } else {
+	            $context = $container;
+	          }
+	          if ($context.length === 0) {
+	            module.error(error.invalidContext, settings.context, $module);
+	            return;
+	          }
+	        },
+	
+	        checkErrors: function checkErrors() {
+	          if (module.is.hidden()) {
+	            module.error(error.visible, $module);
+	          }
+	          if (module.cache.element.height > module.cache.context.height) {
+	            module.reset();
+	            module.error(error.elementSize, $module);
+	            return;
+	          }
+	        },
+	
+	        bind: {
+	          events: function events() {
+	            $window.on('load' + eventNamespace, module.event.load).on('resize' + eventNamespace, module.event.resize);
+	            // pub/sub pattern
+	            $scroll.off('scroll' + eventNamespace).on('scroll' + eventNamespace, module.event.scroll).on('scrollchange' + eventNamespace, module.event.scrollchange);
+	          }
+	        },
+	
+	        event: {
+	          changed: function changed(mutations) {
+	            clearTimeout(module.timer);
+	            module.timer = setTimeout(function () {
+	              module.verbose('DOM tree modified, updating sticky menu', mutations);
+	              module.refresh();
+	            }, 100);
+	          },
+	          documentChanged: function documentChanged(mutations) {
+	            [].forEach.call(mutations, function (mutation) {
+	              if (mutation.removedNodes) {
+	                [].forEach.call(mutation.removedNodes, function (node) {
+	                  if (node == element || $(node).find(element).length > 0) {
+	                    module.debug('Element removed from DOM, tearing down events');
+	                    module.destroy();
+	                  }
+	                });
+	              }
+	            });
+	          },
+	          load: function load() {
+	            module.verbose('Page contents finished loading');
+	            requestAnimationFrame(module.refresh);
+	          },
+	          resize: function resize() {
+	            module.verbose('Window resized');
+	            requestAnimationFrame(module.refresh);
+	          },
+	          scroll: function scroll() {
+	            requestAnimationFrame(function () {
+	              $scroll.triggerHandler('scrollchange' + eventNamespace, $scroll.scrollTop());
+	            });
+	          },
+	          scrollchange: function scrollchange(event, scrollPosition) {
+	            module.stick(scrollPosition);
+	            settings.onScroll.call(element);
+	          }
+	        },
+	
+	        refresh: function refresh(hardRefresh) {
+	          module.reset();
+	          if (!settings.context) {
+	            module.determineContext();
+	          }
+	          if (hardRefresh) {
+	            module.determineContainer();
+	          }
+	          module.save.positions();
+	          module.stick();
+	          settings.onReposition.call(element);
+	        },
+	
+	        supports: {
+	          sticky: function sticky() {
+	            var $element = $('<div/>'),
+	                element = $element[0];
+	            $element.addClass(className.supported);
+	            return $element.css('position').match('sticky');
+	          }
+	        },
+	
+	        save: {
+	          lastScroll: function lastScroll(scroll) {
+	            module.lastScroll = scroll;
+	          },
+	          elementScroll: function elementScroll(scroll) {
+	            module.elementScroll = scroll;
+	          },
+	          positions: function positions() {
+	            var scrollContext = {
+	              height: $scroll.height()
+	            },
+	                element = {
+	              margin: {
+	                top: parseInt($module.css('margin-top'), 10),
+	                bottom: parseInt($module.css('margin-bottom'), 10)
+	              },
+	              offset: $module.offset(),
+	              width: $module.outerWidth(),
+	              height: $module.outerHeight()
+	            },
+	                context = {
+	              offset: $context.offset(),
+	              height: $context.outerHeight()
+	            },
+	                container = {
+	              height: $container.outerHeight()
+	            };
+	            if (!module.is.standardScroll()) {
+	              module.debug('Non-standard scroll. Removing scroll offset from element offset');
+	
+	              scrollContext.top = $scroll.scrollTop();
+	              scrollContext.left = $scroll.scrollLeft();
+	
+	              element.offset.top += scrollContext.top;
+	              context.offset.top += scrollContext.top;
+	              element.offset.left += scrollContext.left;
+	              context.offset.left += scrollContext.left;
+	            }
+	            module.cache = {
+	              fits: element.height < scrollContext.height,
+	              scrollContext: {
+	                height: scrollContext.height
+	              },
+	              element: {
+	                margin: element.margin,
+	                top: element.offset.top - element.margin.top,
+	                left: element.offset.left,
+	                width: element.width,
+	                height: element.height,
+	                bottom: element.offset.top + element.height
+	              },
+	              context: {
+	                top: context.offset.top,
+	                height: context.height,
+	                bottom: context.offset.top + context.height
+	              }
+	            };
+	            module.set.containerSize();
+	            module.set.size();
+	            module.stick();
+	            module.debug('Caching element positions', module.cache);
+	          }
+	        },
+	
+	        get: {
+	          direction: function direction(scroll) {
+	            var direction = 'down';
+	            scroll = scroll || $scroll.scrollTop();
+	            if (module.lastScroll !== undefined) {
+	              if (module.lastScroll < scroll) {
+	                direction = 'down';
+	              } else if (module.lastScroll > scroll) {
+	                direction = 'up';
+	              }
+	            }
+	            return direction;
+	          },
+	          scrollChange: function scrollChange(scroll) {
+	            scroll = scroll || $scroll.scrollTop();
+	            return module.lastScroll ? scroll - module.lastScroll : 0;
+	          },
+	          currentElementScroll: function currentElementScroll() {
+	            if (module.elementScroll) {
+	              return module.elementScroll;
+	            }
+	            return module.is.top() ? Math.abs(parseInt($module.css('top'), 10)) || 0 : Math.abs(parseInt($module.css('bottom'), 10)) || 0;
+	          },
+	
+	          elementScroll: function elementScroll(scroll) {
+	            scroll = scroll || $scroll.scrollTop();
+	            var element = module.cache.element,
+	                scrollContext = module.cache.scrollContext,
+	                delta = module.get.scrollChange(scroll),
+	                maxScroll = element.height - scrollContext.height + settings.offset,
+	                elementScroll = module.get.currentElementScroll(),
+	                possibleScroll = elementScroll + delta;
+	            if (module.cache.fits || possibleScroll < 0) {
+	              elementScroll = 0;
+	            } else if (possibleScroll > maxScroll) {
+	              elementScroll = maxScroll;
+	            } else {
+	              elementScroll = possibleScroll;
+	            }
+	            return elementScroll;
+	          }
+	        },
+	
+	        remove: {
+	          lastScroll: function lastScroll() {
+	            delete module.lastScroll;
+	          },
+	          elementScroll: function elementScroll(scroll) {
+	            delete module.elementScroll;
+	          },
+	          offset: function offset() {
+	            $module.css('margin-top', '');
+	          }
+	        },
+	
+	        set: {
+	          offset: function offset() {
+	            module.verbose('Setting offset on element', settings.offset);
+	            $module.css('margin-top', settings.offset);
+	          },
+	          containerSize: function containerSize() {
+	            var tagName = $container.get(0).tagName;
+	            if (tagName === 'HTML' || tagName == 'body') {
+	              // this can trigger for too many reasons
+	              //module.error(error.container, tagName, $module);
+	              module.determineContainer();
+	            } else {
+	              if (Math.abs($container.outerHeight() - module.cache.context.height) > settings.jitter) {
+	                module.debug('Context has padding, specifying exact height for container', module.cache.context.height);
+	                $container.css({
+	                  height: module.cache.context.height
+	                });
+	              }
+	            }
+	          },
+	          minimumSize: function minimumSize() {
+	            var element = module.cache.element;
+	            $container.css('min-height', element.height);
+	          },
+	          scroll: function scroll(_scroll) {
+	            module.debug('Setting scroll on element', _scroll);
+	            if (module.elementScroll == _scroll) {
+	              return;
+	            }
+	            if (module.is.top()) {
+	              $module.css('bottom', '').css('top', -_scroll);
+	            }
+	            if (module.is.bottom()) {
+	              $module.css('top', '').css('bottom', _scroll);
+	            }
+	          },
+	          size: function size() {
+	            if (module.cache.element.height !== 0 && module.cache.element.width !== 0) {
+	              element.style.setProperty('width', module.cache.element.width + 'px', 'important');
+	              element.style.setProperty('height', module.cache.element.height + 'px', 'important');
+	            }
+	          }
+	        },
+	
+	        is: {
+	          standardScroll: function standardScroll() {
+	            return $scroll[0] == window;
+	          },
+	          top: function top() {
+	            return $module.hasClass(className.top);
+	          },
+	          bottom: function bottom() {
+	            return $module.hasClass(className.bottom);
+	          },
+	          initialPosition: function initialPosition() {
+	            return !module.is.fixed() && !module.is.bound();
+	          },
+	          hidden: function hidden() {
+	            return !$module.is(':visible');
+	          },
+	          bound: function bound() {
+	            return $module.hasClass(className.bound);
+	          },
+	          fixed: function fixed() {
+	            return $module.hasClass(className.fixed);
+	          }
+	        },
+	
+	        stick: function stick(scroll) {
+	          var cachedPosition = scroll || $scroll.scrollTop(),
+	              cache = module.cache,
+	              fits = cache.fits,
+	              element = cache.element,
+	              scrollContext = cache.scrollContext,
+	              context = cache.context,
+	              offset = module.is.bottom() && settings.pushing ? settings.bottomOffset : settings.offset,
+	              scroll = {
+	            top: cachedPosition + offset,
+	            bottom: cachedPosition + offset + scrollContext.height
+	          },
+	              direction = module.get.direction(scroll.top),
+	              elementScroll = fits ? 0 : module.get.elementScroll(scroll.top),
+	
+	
+	          // shorthand
+	          doesntFit = !fits,
+	              elementVisible = element.height !== 0;
+	
+	          if (elementVisible) {
+	
+	            if (module.is.initialPosition()) {
+	              if (scroll.top >= context.bottom) {
+	                module.debug('Initial element position is bottom of container');
+	                module.bindBottom();
+	              } else if (scroll.top > element.top) {
+	                if (element.height + scroll.top - elementScroll >= context.bottom) {
+	                  module.debug('Initial element position is bottom of container');
+	                  module.bindBottom();
+	                } else {
+	                  module.debug('Initial element position is fixed');
+	                  module.fixTop();
+	                }
+	              }
+	            } else if (module.is.fixed()) {
+	
+	              // currently fixed top
+	              if (module.is.top()) {
+	                if (scroll.top <= element.top) {
+	                  module.debug('Fixed element reached top of container');
+	                  module.setInitialPosition();
+	                } else if (element.height + scroll.top - elementScroll >= context.bottom) {
+	                  module.debug('Fixed element reached bottom of container');
+	                  module.bindBottom();
+	                }
+	                // scroll element if larger than screen
+	                else if (doesntFit) {
+	                    module.set.scroll(elementScroll);
+	                    module.save.lastScroll(scroll.top);
+	                    module.save.elementScroll(elementScroll);
+	                  }
+	              }
+	
+	              // currently fixed bottom
+	              else if (module.is.bottom()) {
+	
+	                  // top edge
+	                  if (scroll.bottom - element.height <= element.top) {
+	                    module.debug('Bottom fixed rail has reached top of container');
+	                    module.setInitialPosition();
+	                  }
+	                  // bottom edge
+	                  else if (scroll.bottom >= context.bottom) {
+	                      module.debug('Bottom fixed rail has reached bottom of container');
+	                      module.bindBottom();
+	                    }
+	                    // scroll element if larger than screen
+	                    else if (doesntFit) {
+	                        module.set.scroll(elementScroll);
+	                        module.save.lastScroll(scroll.top);
+	                        module.save.elementScroll(elementScroll);
+	                      }
+	                }
+	            } else if (module.is.bottom()) {
+	              if (scroll.top <= element.top) {
+	                module.debug('Jumped from bottom fixed to top fixed, most likely used home/end button');
+	                module.setInitialPosition();
+	              } else {
+	                if (settings.pushing) {
+	                  if (module.is.bound() && scroll.bottom <= context.bottom) {
+	                    module.debug('Fixing bottom attached element to bottom of browser.');
+	                    module.fixBottom();
+	                  }
+	                } else {
+	                  if (module.is.bound() && scroll.top <= context.bottom - element.height) {
+	                    module.debug('Fixing bottom attached element to top of browser.');
+	                    module.fixTop();
+	                  }
+	                }
+	              }
+	            }
+	          }
+	        },
+	
+	        bindTop: function bindTop() {
+	          module.debug('Binding element to top of parent container');
+	          module.remove.offset();
+	          $module.css({
+	            left: '',
+	            top: '',
+	            marginBottom: ''
+	          }).removeClass(className.fixed).removeClass(className.bottom).addClass(className.bound).addClass(className.top);
+	          settings.onTop.call(element);
+	          settings.onUnstick.call(element);
+	        },
+	        bindBottom: function bindBottom() {
+	          module.debug('Binding element to bottom of parent container');
+	          module.remove.offset();
+	          $module.css({
+	            left: '',
+	            top: ''
+	          }).removeClass(className.fixed).removeClass(className.top).addClass(className.bound).addClass(className.bottom);
+	          settings.onBottom.call(element);
+	          settings.onUnstick.call(element);
+	        },
+	
+	        setInitialPosition: function setInitialPosition() {
+	          module.debug('Returning to initial position');
+	          module.unfix();
+	          module.unbind();
+	        },
+	
+	        fixTop: function fixTop() {
+	          module.debug('Fixing element to top of page');
+	          module.set.minimumSize();
+	          module.set.offset();
+	          $module.css({
+	            left: module.cache.element.left,
+	            bottom: '',
+	            marginBottom: ''
+	          }).removeClass(className.bound).removeClass(className.bottom).addClass(className.fixed).addClass(className.top);
+	          settings.onStick.call(element);
+	        },
+	
+	        fixBottom: function fixBottom() {
+	          module.debug('Sticking element to bottom of page');
+	          module.set.minimumSize();
+	          module.set.offset();
+	          $module.css({
+	            left: module.cache.element.left,
+	            bottom: '',
+	            marginBottom: ''
+	          }).removeClass(className.bound).removeClass(className.top).addClass(className.fixed).addClass(className.bottom);
+	          settings.onStick.call(element);
+	        },
+	
+	        unbind: function unbind() {
+	          if (module.is.bound()) {
+	            module.debug('Removing container bound position on element');
+	            module.remove.offset();
+	            $module.removeClass(className.bound).removeClass(className.top).removeClass(className.bottom);
+	          }
+	        },
+	
+	        unfix: function unfix() {
+	          if (module.is.fixed()) {
+	            module.debug('Removing fixed position on element');
+	            module.remove.offset();
+	            $module.removeClass(className.fixed).removeClass(className.top).removeClass(className.bottom);
+	            settings.onUnstick.call(element);
+	          }
+	        },
+	
+	        reset: function reset() {
+	          module.debug('Resetting elements position');
+	          module.unbind();
+	          module.unfix();
+	          module.resetCSS();
+	          module.remove.offset();
+	          module.remove.lastScroll();
+	        },
+	
+	        resetCSS: function resetCSS() {
+	          $module.css({
+	            width: '',
+	            height: ''
+	          });
+	          $container.css({
+	            height: ''
+	          });
+	        },
+	
+	        setting: function setting(name, value) {
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, settings, name);
+	          } else if (value !== undefined) {
+	            settings[name] = value;
+	          } else {
+	            return settings[name];
+	          }
+	        },
+	        internal: function internal(name, value) {
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, module, name);
+	          } else if (value !== undefined) {
+	            module[name] = value;
+	          } else {
+	            return module[name];
+	          }
+	        },
+	        debug: function debug() {
+	          if (!settings.silent && settings.debug) {
+	            if (settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.debug = Function.prototype.bind.call(console.info, console, settings.name + ':');
+	              module.debug.apply(console, arguments);
+	            }
+	          }
+	        },
+	        verbose: function verbose() {
+	          if (!settings.silent && settings.verbose && settings.debug) {
+	            if (settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.verbose = Function.prototype.bind.call(console.info, console, settings.name + ':');
+	              module.verbose.apply(console, arguments);
+	            }
+	          }
+	        },
+	        error: function error() {
+	          if (!settings.silent) {
+	            module.error = Function.prototype.bind.call(console.error, console, settings.name + ':');
+	            module.error.apply(console, arguments);
+	          }
+	        },
+	        performance: {
+	          log: function log(message) {
+	            var currentTime, executionTime, previousTime;
+	            if (settings.performance) {
+	              currentTime = new Date().getTime();
+	              previousTime = time || currentTime;
+	              executionTime = currentTime - previousTime;
+	              time = currentTime;
+	              performance.push({
+	                'Name': message[0],
+	                'Arguments': [].slice.call(message, 1) || '',
+	                'Element': element,
+	                'Execution Time': executionTime
+	              });
+	            }
+	            clearTimeout(module.performance.timer);
+	            module.performance.timer = setTimeout(module.performance.display, 0);
+	          },
+	          display: function display() {
+	            var title = settings.name + ':',
+	                totalTime = 0;
+	            time = false;
+	            clearTimeout(module.performance.timer);
+	            $.each(performance, function (index, data) {
+	              totalTime += data['Execution Time'];
+	            });
+	            title += ' ' + totalTime + 'ms';
+	            if (moduleSelector) {
+	              title += ' \'' + moduleSelector + '\'';
+	            }
+	            if ((console.group !== undefined || console.table !== undefined) && performance.length > 0) {
+	              console.groupCollapsed(title);
+	              if (console.table) {
+	                console.table(performance);
+	              } else {
+	                $.each(performance, function (index, data) {
+	                  console.log(data['Name'] + ': ' + data['Execution Time'] + 'ms');
+	                });
+	              }
+	              console.groupEnd();
+	            }
+	            performance = [];
+	          }
+	        },
+	        invoke: function invoke(query, passedArguments, context) {
+	          var object = instance,
+	              maxDepth,
+	              found,
+	              response;
+	          passedArguments = passedArguments || queryArguments;
+	          context = element || context;
+	          if (typeof query == 'string' && object !== undefined) {
+	            query = query.split(/[\. ]/);
+	            maxDepth = query.length - 1;
+	            $.each(query, function (depth, value) {
+	              var camelCaseValue = depth != maxDepth ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1) : query;
+	              if ($.isPlainObject(object[camelCaseValue]) && depth != maxDepth) {
+	                object = object[camelCaseValue];
+	              } else if (object[camelCaseValue] !== undefined) {
+	                found = object[camelCaseValue];
+	                return false;
+	              } else if ($.isPlainObject(object[value]) && depth != maxDepth) {
+	                object = object[value];
+	              } else if (object[value] !== undefined) {
+	                found = object[value];
+	                return false;
+	              } else {
+	                return false;
+	              }
+	            });
+	          }
+	          if ($.isFunction(found)) {
+	            response = found.apply(context, passedArguments);
+	          } else if (found !== undefined) {
+	            response = found;
+	          }
+	          if ($.isArray(returnedValue)) {
+	            returnedValue.push(response);
+	          } else if (returnedValue !== undefined) {
+	            returnedValue = [returnedValue, response];
+	          } else if (response !== undefined) {
+	            returnedValue = response;
+	          }
+	          return found;
+	        }
+	      };
+	
+	      if (methodInvoked) {
+	        if (instance === undefined) {
+	          module.initialize();
+	        }
+	        module.invoke(query);
+	      } else {
+	        if (instance !== undefined) {
+	          instance.invoke('destroy');
+	        }
+	        module.initialize();
+	      }
+	    });
+	
+	    return returnedValue !== undefined ? returnedValue : this;
+	  };
+	
+	  $.fn.sticky.settings = {
+	
+	    name: 'Sticky',
+	    namespace: 'sticky',
+	
+	    silent: false,
+	    debug: false,
+	    verbose: true,
+	    performance: true,
+	
+	    // whether to stick in the opposite direction on scroll up
+	    pushing: false,
+	
+	    context: false,
+	
+	    // Context to watch scroll events
+	    scrollContext: window,
+	
+	    // Offset to adjust scroll
+	    offset: 0,
+	
+	    // Offset to adjust scroll when attached to bottom of screen
+	    bottomOffset: 0,
+	
+	    jitter: 5, // will only set container height if difference between context and container is larger than this number
+	
+	    // Whether to automatically observe changes with Mutation Observers
+	    observeChanges: false,
+	
+	    // Called when position is recalculated
+	    onReposition: function onReposition() {},
+	
+	    // Called on each scroll
+	    onScroll: function onScroll() {},
+	
+	    // Called when element is stuck to viewport
+	    onStick: function onStick() {},
+	
+	    // Called when element is unstuck from viewport
+	    onUnstick: function onUnstick() {},
+	
+	    // Called when element reaches top of context
+	    onTop: function onTop() {},
+	
+	    // Called when element reaches bottom of context
+	    onBottom: function onBottom() {},
+	
+	    error: {
+	      container: 'Sticky element must be inside a relative container',
+	      visible: 'Element is hidden, you must call refresh after element becomes visible. Use silent setting to surpress this warning in production.',
+	      method: 'The method you called is not defined.',
+	      invalidContext: 'Context specified does not exist',
+	      elementSize: 'Sticky element is larger than its container, cannot create sticky.'
+	    },
+	
+	    className: {
+	      bound: 'bound',
+	      fixed: 'fixed',
+	      supported: 'native',
+	      top: 'top',
+	      bottom: 'bottom'
+	    }
+	
+	  };
+	})(jQuery, window, document);
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	/*!
+	 * # Semantic UI 2.2.2 - API
+	 * http://github.com/semantic-org/semantic-ui/
+	 *
+	 *
+	 * Released under the MIT license
+	 * http://opensource.org/licenses/MIT
+	 *
+	 */
+	
+	;(function ($, window, document, undefined) {
+	
+	  "use strict";
+	
+	  var window = typeof window != 'undefined' && window.Math == Math ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	
+	  $.api = $.fn.api = function (parameters) {
+	
+	    var
+	    // use window context if none specified
+	    $allModules = $.isFunction(this) ? $(window) : $(this),
+	        moduleSelector = $allModules.selector || '',
+	        time = new Date().getTime(),
+	        performance = [],
+	        query = arguments[0],
+	        methodInvoked = typeof query == 'string',
+	        queryArguments = [].slice.call(arguments, 1),
+	        returnedValue;
+	
+	    $allModules.each(function () {
+	      var _settings = $.isPlainObject(parameters) ? $.extend(true, {}, $.fn.api.settings, parameters) : $.extend({}, $.fn.api.settings),
+	
+	
+	      // internal aliases
+	      namespace = _settings.namespace,
+	          metadata = _settings.metadata,
+	          selector = _settings.selector,
+	          error = _settings.error,
+	          className = _settings.className,
+	
+	
+	      // define namespaces for modules
+	      eventNamespace = '.' + namespace,
+	          moduleNamespace = 'module-' + namespace,
+	
+	
+	      // element that creates request
+	      $module = $(this),
+	          $form = $module.closest(selector.form),
+	
+	
+	      // context used for state
+	      $context = _settings.stateContext ? $(_settings.stateContext) : $module,
+	
+	
+	      // request details
+	      ajaxSettings,
+	          requestSettings,
+	          url,
+	          data,
+	          requestStartTime,
+	
+	
+	      // standard module
+	      element = this,
+	          context = $context[0],
+	          instance = $module.data(moduleNamespace),
+	          module;
+	
+	      module = {
+	
+	        initialize: function initialize() {
+	          if (!methodInvoked) {
+	            module.bind.events();
+	          }
+	          module.instantiate();
+	        },
+	
+	        instantiate: function instantiate() {
+	          module.verbose('Storing instance of module', module);
+	          instance = module;
+	          $module.data(moduleNamespace, instance);
+	        },
+	
+	        destroy: function destroy() {
+	          module.verbose('Destroying previous module for', element);
+	          $module.removeData(moduleNamespace).off(eventNamespace);
+	        },
+	
+	        bind: {
+	          events: function events() {
+	            var triggerEvent = module.get.event();
+	            if (triggerEvent) {
+	              module.verbose('Attaching API events to element', triggerEvent);
+	              $module.on(triggerEvent + eventNamespace, module.event.trigger);
+	            } else if (_settings.on == 'now') {
+	              module.debug('Querying API endpoint immediately');
+	              module.query();
+	            }
+	          }
+	        },
+	
+	        decode: {
+	          json: function json(response) {
+	            if (response !== undefined && typeof response == 'string') {
+	              try {
+	                response = JSON.parse(response);
+	              } catch (e) {
+	                // isnt json string
+	              }
+	            }
+	            return response;
+	          }
+	        },
+	
+	        read: {
+	          cachedResponse: function cachedResponse(url) {
+	            var response;
+	            if (window.Storage === undefined) {
+	              module.error(error.noStorage);
+	              return;
+	            }
+	            response = sessionStorage.getItem(url);
+	            module.debug('Using cached response', url, response);
+	            response = module.decode.json(response);
+	            return response;
+	          }
+	        },
+	        write: {
+	          cachedResponse: function cachedResponse(url, response) {
+	            if (response && response === '') {
+	              module.debug('Response empty, not caching', response);
+	              return;
+	            }
+	            if (window.Storage === undefined) {
+	              module.error(error.noStorage);
+	              return;
+	            }
+	            if ($.isPlainObject(response)) {
+	              response = JSON.stringify(response);
+	            }
+	            sessionStorage.setItem(url, response);
+	            module.verbose('Storing cached response for url', url, response);
+	          }
+	        },
+	
+	        query: function query() {
+	
+	          if (module.is.disabled()) {
+	            module.debug('Element is disabled API request aborted');
+	            return;
+	          }
+	
+	          if (module.is.loading()) {
+	            if (_settings.interruptRequests) {
+	              module.debug('Interrupting previous request');
+	              module.abort();
+	            } else {
+	              module.debug('Cancelling request, previous request is still pending');
+	              return;
+	            }
+	          }
+	
+	          // pass element metadata to url (value, text)
+	          if (_settings.defaultData) {
+	            $.extend(true, _settings.urlData, module.get.defaultData());
+	          }
+	
+	          // Add form content
+	          if (_settings.serializeForm) {
+	            _settings.data = module.add.formData(_settings.data);
+	          }
+	
+	          // call beforesend and get any settings changes
+	          requestSettings = module.get.settings();
+	
+	          // check if before send cancelled request
+	          if (requestSettings === false) {
+	            module.cancelled = true;
+	            module.error(error.beforeSend);
+	            return;
+	          } else {
+	            module.cancelled = false;
+	          }
+	
+	          // get url
+	          url = module.get.templatedURL();
+	
+	          if (!url && !module.is.mocked()) {
+	            module.error(error.missingURL);
+	            return;
+	          }
+	
+	          // replace variables
+	          url = module.add.urlData(url);
+	          // missing url parameters
+	          if (!url && !module.is.mocked()) {
+	            return;
+	          }
+	
+	          requestSettings.url = _settings.base + url;
+	
+	          // look for jQuery ajax parameters in settings
+	          ajaxSettings = $.extend(true, {}, _settings, {
+	            type: _settings.method || _settings.type,
+	            data: data,
+	            url: _settings.base + url,
+	            beforeSend: _settings.beforeXHR,
+	            success: function success() {},
+	            failure: function failure() {},
+	            complete: function complete() {}
+	          });
+	
+	          module.debug('Querying URL', ajaxSettings.url);
+	          module.verbose('Using AJAX settings', ajaxSettings);
+	          if (_settings.cache === 'local' && module.read.cachedResponse(url)) {
+	            module.debug('Response returned from local cache');
+	            module.request = module.create.request();
+	            module.request.resolveWith(context, [module.read.cachedResponse(url)]);
+	            return;
+	          }
+	
+	          if (!_settings.throttle) {
+	            module.debug('Sending request', data, ajaxSettings.method);
+	            module.send.request();
+	          } else {
+	            if (!_settings.throttleFirstRequest && !module.timer) {
+	              module.debug('Sending request', data, ajaxSettings.method);
+	              module.send.request();
+	              module.timer = setTimeout(function () {}, _settings.throttle);
+	            } else {
+	              module.debug('Throttling request', _settings.throttle);
+	              clearTimeout(module.timer);
+	              module.timer = setTimeout(function () {
+	                if (module.timer) {
+	                  delete module.timer;
+	                }
+	                module.debug('Sending throttled request', data, ajaxSettings.method);
+	                module.send.request();
+	              }, _settings.throttle);
+	            }
+	          }
+	        },
+	
+	        should: {
+	          removeError: function removeError() {
+	            return _settings.hideError === true || _settings.hideError === 'auto' && !module.is.form();
+	          }
+	        },
+	
+	        is: {
+	          disabled: function disabled() {
+	            return $module.filter(selector.disabled).length > 0;
+	          },
+	          expectingJSON: function expectingJSON() {
+	            return _settings.dataType === 'json' || _settings.dataType === 'jsonp';
+	          },
+	          form: function form() {
+	            return $module.is('form') || $context.is('form');
+	          },
+	          mocked: function mocked() {
+	            return _settings.mockResponse || _settings.mockResponseAsync || _settings.response || _settings.responseAsync;
+	          },
+	          input: function input() {
+	            return $module.is('input');
+	          },
+	          loading: function loading() {
+	            return module.request ? module.request.state() == 'pending' : false;
+	          },
+	          abortedRequest: function abortedRequest(xhr) {
+	            if (xhr && xhr.readyState !== undefined && xhr.readyState === 0) {
+	              module.verbose('XHR request determined to be aborted');
+	              return true;
+	            } else {
+	              module.verbose('XHR request was not aborted');
+	              return false;
+	            }
+	          },
+	          validResponse: function validResponse(response) {
+	            if (!module.is.expectingJSON() || !$.isFunction(_settings.successTest)) {
+	              module.verbose('Response is not JSON, skipping validation', _settings.successTest, response);
+	              return true;
+	            }
+	            module.debug('Checking JSON returned success', _settings.successTest, response);
+	            if (_settings.successTest(response)) {
+	              module.debug('Response passed success test', response);
+	              return true;
+	            } else {
+	              module.debug('Response failed success test', response);
+	              return false;
+	            }
+	          }
+	        },
+	
+	        was: {
+	          cancelled: function cancelled() {
+	            return module.cancelled || false;
+	          },
+	          succesful: function succesful() {
+	            return module.request && module.request.state() == 'resolved';
+	          },
+	          failure: function failure() {
+	            return module.request && module.request.state() == 'rejected';
+	          },
+	          complete: function complete() {
+	            return module.request && (module.request.state() == 'resolved' || module.request.state() == 'rejected');
+	          }
+	        },
+	
+	        add: {
+	          urlData: function urlData(url, _urlData) {
+	            var requiredVariables, optionalVariables;
+	            if (url) {
+	              requiredVariables = url.match(_settings.regExp.required);
+	              optionalVariables = url.match(_settings.regExp.optional);
+	              _urlData = _urlData || _settings.urlData;
+	              if (requiredVariables) {
+	                module.debug('Looking for required URL variables', requiredVariables);
+	                $.each(requiredVariables, function (index, templatedString) {
+	                  var
+	                  // allow legacy {$var} style
+	                  variable = templatedString.indexOf('$') !== -1 ? templatedString.substr(2, templatedString.length - 3) : templatedString.substr(1, templatedString.length - 2),
+	                      value = $.isPlainObject(_urlData) && _urlData[variable] !== undefined ? _urlData[variable] : $module.data(variable) !== undefined ? $module.data(variable) : $context.data(variable) !== undefined ? $context.data(variable) : _urlData[variable];
+	                  // remove value
+	                  if (value === undefined) {
+	                    module.error(error.requiredParameter, variable, url);
+	                    url = false;
+	                    return false;
+	                  } else {
+	                    module.verbose('Found required variable', variable, value);
+	                    value = _settings.encodeParameters ? module.get.urlEncodedValue(value) : value;
+	                    url = url.replace(templatedString, value);
+	                  }
+	                });
+	              }
+	              if (optionalVariables) {
+	                module.debug('Looking for optional URL variables', requiredVariables);
+	                $.each(optionalVariables, function (index, templatedString) {
+	                  var
+	                  // allow legacy {/$var} style
+	                  variable = templatedString.indexOf('$') !== -1 ? templatedString.substr(3, templatedString.length - 4) : templatedString.substr(2, templatedString.length - 3),
+	                      value = $.isPlainObject(_urlData) && _urlData[variable] !== undefined ? _urlData[variable] : $module.data(variable) !== undefined ? $module.data(variable) : $context.data(variable) !== undefined ? $context.data(variable) : _urlData[variable];
+	                  // optional replacement
+	                  if (value !== undefined) {
+	                    module.verbose('Optional variable Found', variable, value);
+	                    url = url.replace(templatedString, value);
+	                  } else {
+	                    module.verbose('Optional variable not found', variable);
+	                    // remove preceding slash if set
+	                    if (url.indexOf('/' + templatedString) !== -1) {
+	                      url = url.replace('/' + templatedString, '');
+	                    } else {
+	                      url = url.replace(templatedString, '');
+	                    }
+	                  }
+	                });
+	              }
+	            }
+	            return url;
+	          },
+	          formData: function formData(data) {
+	            var canSerialize = $.fn.serializeObject !== undefined,
+	                formData = canSerialize ? $form.serializeObject() : $form.serialize(),
+	                hasOtherData;
+	            data = data || _settings.data;
+	            hasOtherData = $.isPlainObject(data);
+	
+	            if (hasOtherData) {
+	              if (canSerialize) {
+	                module.debug('Extending existing data with form data', data, formData);
+	                data = $.extend(true, {}, data, formData);
+	              } else {
+	                module.error(error.missingSerialize);
+	                module.debug('Cant extend data. Replacing data with form data', data, formData);
+	                data = formData;
+	              }
+	            } else {
+	              module.debug('Adding form data', formData);
+	              data = formData;
+	            }
+	            return data;
+	          }
+	        },
+	
+	        send: {
+	          request: function request() {
+	            module.set.loading();
+	            module.request = module.create.request();
+	            if (module.is.mocked()) {
+	              module.mockedXHR = module.create.mockedXHR();
+	            } else {
+	              module.xhr = module.create.xhr();
+	            }
+	            _settings.onRequest.call(context, module.request, module.xhr);
+	          }
+	        },
+	
+	        event: {
+	          trigger: function trigger(event) {
+	            module.query();
+	            if (event.type == 'submit' || event.type == 'click') {
+	              event.preventDefault();
+	            }
+	          },
+	          xhr: {
+	            always: function always() {
+	              // nothing special
+	            },
+	            done: function done(response, textStatus, xhr) {
+	              var context = this,
+	                  elapsedTime = new Date().getTime() - requestStartTime,
+	                  timeLeft = _settings.loadingDuration - elapsedTime,
+	                  translatedResponse = $.isFunction(_settings.onResponse) ? module.is.expectingJSON() ? _settings.onResponse.call(context, $.extend(true, {}, response)) : _settings.onResponse.call(context, response) : false;
+	              timeLeft = timeLeft > 0 ? timeLeft : 0;
+	              if (translatedResponse) {
+	                module.debug('Modified API response in onResponse callback', _settings.onResponse, translatedResponse, response);
+	                response = translatedResponse;
+	              }
+	              if (timeLeft > 0) {
+	                module.debug('Response completed early delaying state change by', timeLeft);
+	              }
+	              setTimeout(function () {
+	                if (module.is.validResponse(response)) {
+	                  module.request.resolveWith(context, [response, xhr]);
+	                } else {
+	                  module.request.rejectWith(context, [xhr, 'invalid']);
+	                }
+	              }, timeLeft);
+	            },
+	            fail: function fail(xhr, status, httpMessage) {
+	              var context = this,
+	                  elapsedTime = new Date().getTime() - requestStartTime,
+	                  timeLeft = _settings.loadingDuration - elapsedTime;
+	              timeLeft = timeLeft > 0 ? timeLeft : 0;
+	              if (timeLeft > 0) {
+	                module.debug('Response completed early delaying state change by', timeLeft);
+	              }
+	              setTimeout(function () {
+	                if (module.is.abortedRequest(xhr)) {
+	                  module.request.rejectWith(context, [xhr, 'aborted', httpMessage]);
+	                } else {
+	                  module.request.rejectWith(context, [xhr, 'error', status, httpMessage]);
+	                }
+	              }, timeLeft);
+	            }
+	          },
+	          request: {
+	            done: function done(response, xhr) {
+	              module.debug('Successful API Response', response);
+	              if (_settings.cache === 'local' && url) {
+	                module.write.cachedResponse(url, response);
+	                module.debug('Saving server response locally', module.cache);
+	              }
+	              _settings.onSuccess.call(context, response, $module, xhr);
+	            },
+	            complete: function complete(firstParameter, secondParameter) {
+	              var xhr, response;
+	              // have to guess callback parameters based on request success
+	              if (module.was.succesful()) {
+	                response = firstParameter;
+	                xhr = secondParameter;
+	              } else {
+	                xhr = firstParameter;
+	                response = module.get.responseFromXHR(xhr);
+	              }
+	              module.remove.loading();
+	              _settings.onComplete.call(context, response, $module, xhr);
+	            },
+	            fail: function fail(xhr, status, httpMessage) {
+	              var
+	              // pull response from xhr if available
+	              response = module.get.responseFromXHR(xhr),
+	                  errorMessage = module.get.errorFromRequest(response, status, httpMessage);
+	              if (status == 'aborted') {
+	                module.debug('XHR Aborted (Most likely caused by page navigation or CORS Policy)', status, httpMessage);
+	                _settings.onAbort.call(context, status, $module, xhr);
+	                return true;
+	              } else if (status == 'invalid') {
+	                module.debug('JSON did not pass success test. A server-side error has most likely occurred', response);
+	              } else if (status == 'error') {
+	                if (xhr !== undefined) {
+	                  module.debug('XHR produced a server error', status, httpMessage);
+	                  // make sure we have an error to display to console
+	                  if (xhr.status != 200 && httpMessage !== undefined && httpMessage !== '') {
+	                    module.error(error.statusMessage + httpMessage, ajaxSettings.url);
+	                  }
+	                  _settings.onError.call(context, errorMessage, $module, xhr);
+	                }
+	              }
+	
+	              if (_settings.errorDuration && status !== 'aborted') {
+	                module.debug('Adding error state');
+	                module.set.error();
+	                if (module.should.removeError()) {
+	                  setTimeout(module.remove.error, _settings.errorDuration);
+	                }
+	              }
+	              module.debug('API Request failed', errorMessage, xhr);
+	              _settings.onFailure.call(context, response, $module, xhr);
+	            }
+	          }
+	        },
+	
+	        create: {
+	
+	          request: function request() {
+	            // api request promise
+	            return $.Deferred().always(module.event.request.complete).done(module.event.request.done).fail(module.event.request.fail);
+	          },
+	
+	          mockedXHR: function mockedXHR() {
+	            var
+	            // xhr does not simulate these properties of xhr but must return them
+	            textStatus = false,
+	                status = false,
+	                httpMessage = false,
+	                responder = _settings.mockResponse || _settings.response,
+	                asyncResponder = _settings.mockResponseAsync || _settings.responseAsync,
+	                asyncCallback,
+	                response,
+	                mockedXHR;
+	
+	            mockedXHR = $.Deferred().always(module.event.xhr.complete).done(module.event.xhr.done).fail(module.event.xhr.fail);
+	
+	            if (responder) {
+	              if ($.isFunction(responder)) {
+	                module.debug('Using specified synchronous callback', responder);
+	                response = responder.call(context, requestSettings);
+	              } else {
+	                module.debug('Using settings specified response', responder);
+	                response = responder;
+	              }
+	              // simulating response
+	              mockedXHR.resolveWith(context, [response, textStatus, { responseText: response }]);
+	            } else if ($.isFunction(asyncResponder)) {
+	              asyncCallback = function asyncCallback(response) {
+	                module.debug('Async callback returned response', response);
+	
+	                if (response) {
+	                  mockedXHR.resolveWith(context, [response, textStatus, { responseText: response }]);
+	                } else {
+	                  mockedXHR.rejectWith(context, [{ responseText: response }, status, httpMessage]);
+	                }
+	              };
+	              module.debug('Using specified async response callback', asyncResponder);
+	              asyncResponder.call(context, requestSettings, asyncCallback);
+	            }
+	            return mockedXHR;
+	          },
+	
+	          xhr: function xhr() {
+	            var xhr;
+	            // ajax request promise
+	            xhr = $.ajax(ajaxSettings).always(module.event.xhr.always).done(module.event.xhr.done).fail(module.event.xhr.fail);
+	            module.verbose('Created server request', xhr, ajaxSettings);
+	            return xhr;
+	          }
+	        },
+	
+	        set: {
+	          error: function error() {
+	            module.verbose('Adding error state to element', $context);
+	            $context.addClass(className.error);
+	          },
+	          loading: function loading() {
+	            module.verbose('Adding loading state to element', $context);
+	            $context.addClass(className.loading);
+	            requestStartTime = new Date().getTime();
+	          }
+	        },
+	
+	        remove: {
+	          error: function error() {
+	            module.verbose('Removing error state from element', $context);
+	            $context.removeClass(className.error);
+	          },
+	          loading: function loading() {
+	            module.verbose('Removing loading state from element', $context);
+	            $context.removeClass(className.loading);
+	          }
+	        },
+	
+	        get: {
+	          responseFromXHR: function responseFromXHR(xhr) {
+	            return $.isPlainObject(xhr) ? module.is.expectingJSON() ? module.decode.json(xhr.responseText) : xhr.responseText : false;
+	          },
+	          errorFromRequest: function errorFromRequest(response, status, httpMessage) {
+	            return $.isPlainObject(response) && response.error !== undefined ? response.error // use json error message
+	            : _settings.error[status] !== undefined ? // use server error message
+	            _settings.error[status] : httpMessage;
+	          },
+	          request: function request() {
+	            return module.request || false;
+	          },
+	          xhr: function xhr() {
+	            return module.xhr || false;
+	          },
+	          settings: function settings() {
+	            var runSettings;
+	            runSettings = _settings.beforeSend.call(context, _settings);
+	            if (runSettings) {
+	              if (runSettings.success !== undefined) {
+	                module.debug('Legacy success callback detected', runSettings);
+	                module.error(error.legacyParameters, runSettings.success);
+	                runSettings.onSuccess = runSettings.success;
+	              }
+	              if (runSettings.failure !== undefined) {
+	                module.debug('Legacy failure callback detected', runSettings);
+	                module.error(error.legacyParameters, runSettings.failure);
+	                runSettings.onFailure = runSettings.failure;
+	              }
+	              if (runSettings.complete !== undefined) {
+	                module.debug('Legacy complete callback detected', runSettings);
+	                module.error(error.legacyParameters, runSettings.complete);
+	                runSettings.onComplete = runSettings.complete;
+	              }
+	            }
+	            if (runSettings === undefined) {
+	              module.error(error.noReturnedValue);
+	            }
+	            if (runSettings === false) {
+	              return runSettings;
+	            }
+	            return runSettings !== undefined ? $.extend(true, {}, runSettings) : $.extend(true, {}, _settings);
+	          },
+	          urlEncodedValue: function urlEncodedValue(value) {
+	            var decodedValue = window.decodeURIComponent(value),
+	                encodedValue = window.encodeURIComponent(value),
+	                alreadyEncoded = decodedValue !== value;
+	            if (alreadyEncoded) {
+	              module.debug('URL value is already encoded, avoiding double encoding', value);
+	              return value;
+	            }
+	            module.verbose('Encoding value using encodeURIComponent', value, encodedValue);
+	            return encodedValue;
+	          },
+	          defaultData: function defaultData() {
+	            var data = {};
+	            if (!$.isWindow(element)) {
+	              if (module.is.input()) {
+	                data.value = $module.val();
+	              } else if (module.is.form()) {} else {
+	                data.text = $module.text();
+	              }
+	            }
+	            return data;
+	          },
+	          event: function event() {
+	            if ($.isWindow(element) || _settings.on == 'now') {
+	              module.debug('API called without element, no events attached');
+	              return false;
+	            } else if (_settings.on == 'auto') {
+	              if ($module.is('input')) {
+	                return element.oninput !== undefined ? 'input' : element.onpropertychange !== undefined ? 'propertychange' : 'keyup';
+	              } else if ($module.is('form')) {
+	                return 'submit';
+	              } else {
+	                return 'click';
+	              }
+	            } else {
+	              return _settings.on;
+	            }
+	          },
+	          templatedURL: function templatedURL(action) {
+	            action = action || $module.data(metadata.action) || _settings.action || false;
+	            url = $module.data(metadata.url) || _settings.url || false;
+	            if (url) {
+	              module.debug('Using specified url', url);
+	              return url;
+	            }
+	            if (action) {
+	              module.debug('Looking up url for action', action, _settings.api);
+	              if (_settings.api[action] === undefined && !module.is.mocked()) {
+	                module.error(error.missingAction, _settings.action, _settings.api);
+	                return;
+	              }
+	              url = _settings.api[action];
+	            } else if (module.is.form()) {
+	              url = $module.attr('action') || $context.attr('action') || false;
+	              module.debug('No url or action specified, defaulting to form action', url);
+	            }
+	            return url;
+	          }
+	        },
+	
+	        abort: function abort() {
+	          var xhr = module.get.xhr();
+	          if (xhr && xhr.state() !== 'resolved') {
+	            module.debug('Cancelling API request');
+	            xhr.abort();
+	          }
+	        },
+	
+	        // reset state
+	        reset: function reset() {
+	          module.remove.error();
+	          module.remove.loading();
+	        },
+	
+	        setting: function setting(name, value) {
+	          module.debug('Changing setting', name, value);
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, _settings, name);
+	          } else if (value !== undefined) {
+	            if ($.isPlainObject(_settings[name])) {
+	              $.extend(true, _settings[name], value);
+	            } else {
+	              _settings[name] = value;
+	            }
+	          } else {
+	            return _settings[name];
+	          }
+	        },
+	        internal: function internal(name, value) {
+	          if ($.isPlainObject(name)) {
+	            $.extend(true, module, name);
+	          } else if (value !== undefined) {
+	            module[name] = value;
+	          } else {
+	            return module[name];
+	          }
+	        },
+	        debug: function debug() {
+	          if (!_settings.silent && _settings.debug) {
+	            if (_settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.debug = Function.prototype.bind.call(console.info, console, _settings.name + ':');
+	              module.debug.apply(console, arguments);
+	            }
+	          }
+	        },
+	        verbose: function verbose() {
+	          if (!_settings.silent && _settings.verbose && _settings.debug) {
+	            if (_settings.performance) {
+	              module.performance.log(arguments);
+	            } else {
+	              module.verbose = Function.prototype.bind.call(console.info, console, _settings.name + ':');
+	              module.verbose.apply(console, arguments);
+	            }
+	          }
+	        },
+	        error: function error() {
+	          if (!_settings.silent) {
+	            module.error = Function.prototype.bind.call(console.error, console, _settings.name + ':');
+	            module.error.apply(console, arguments);
+	          }
+	        },
+	        performance: {
+	          log: function log(message) {
+	            var currentTime, executionTime, previousTime;
+	            if (_settings.performance) {
+	              currentTime = new Date().getTime();
+	              previousTime = time || currentTime;
+	              executionTime = currentTime - previousTime;
+	              time = currentTime;
+	              performance.push({
+	                'Name': message[0],
+	                'Arguments': [].slice.call(message, 1) || '',
+	                //'Element'        : element,
+	                'Execution Time': executionTime
+	              });
+	            }
+	            clearTimeout(module.performance.timer);
+	            module.performance.timer = setTimeout(module.performance.display, 500);
+	          },
+	          display: function display() {
+	            var title = _settings.name + ':',
+	                totalTime = 0;
+	            time = false;
+	            clearTimeout(module.performance.timer);
+	            $.each(performance, function (index, data) {
+	              totalTime += data['Execution Time'];
+	            });
+	            title += ' ' + totalTime + 'ms';
+	            if (moduleSelector) {
+	              title += ' \'' + moduleSelector + '\'';
+	            }
+	            if ((console.group !== undefined || console.table !== undefined) && performance.length > 0) {
+	              console.groupCollapsed(title);
+	              if (console.table) {
+	                console.table(performance);
+	              } else {
+	                $.each(performance, function (index, data) {
+	                  console.log(data['Name'] + ': ' + data['Execution Time'] + 'ms');
+	                });
+	              }
+	              console.groupEnd();
+	            }
+	            performance = [];
+	          }
+	        },
+	        invoke: function invoke(query, passedArguments, context) {
+	          var object = instance,
+	              maxDepth,
+	              found,
+	              response;
+	          passedArguments = passedArguments || queryArguments;
+	          context = element || context;
+	          if (typeof query == 'string' && object !== undefined) {
+	            query = query.split(/[\. ]/);
+	            maxDepth = query.length - 1;
+	            $.each(query, function (depth, value) {
+	              var camelCaseValue = depth != maxDepth ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1) : query;
+	              if ($.isPlainObject(object[camelCaseValue]) && depth != maxDepth) {
+	                object = object[camelCaseValue];
+	              } else if (object[camelCaseValue] !== undefined) {
+	                found = object[camelCaseValue];
+	                return false;
+	              } else if ($.isPlainObject(object[value]) && depth != maxDepth) {
+	                object = object[value];
+	              } else if (object[value] !== undefined) {
+	                found = object[value];
+	                return false;
+	              } else {
+	                module.error(error.method, query);
+	                return false;
+	              }
+	            });
+	          }
+	          if ($.isFunction(found)) {
+	            response = found.apply(context, passedArguments);
+	          } else if (found !== undefined) {
+	            response = found;
+	          }
+	          if ($.isArray(returnedValue)) {
+	            returnedValue.push(response);
+	          } else if (returnedValue !== undefined) {
+	            returnedValue = [returnedValue, response];
+	          } else if (response !== undefined) {
+	            returnedValue = response;
+	          }
+	          return found;
+	        }
+	      };
+	
+	      if (methodInvoked) {
+	        if (instance === undefined) {
+	          module.initialize();
+	        }
+	        module.invoke(query);
+	      } else {
+	        if (instance !== undefined) {
+	          instance.invoke('destroy');
+	        }
+	        module.initialize();
+	      }
+	    });
+	
+	    return returnedValue !== undefined ? returnedValue : this;
+	  };
+	
+	  $.api.settings = {
+	
+	    name: 'API',
+	    namespace: 'api',
+	
+	    debug: false,
+	    verbose: false,
+	    performance: true,
+	
+	    // object containing all templates endpoints
+	    api: {},
+	
+	    // whether to cache responses
+	    cache: true,
+	
+	    // whether new requests should abort previous requests
+	    interruptRequests: true,
+	
+	    // event binding
+	    on: 'auto',
+	
+	    // context for applying state classes
+	    stateContext: false,
+	
+	    // duration for loading state
+	    loadingDuration: 0,
+	
+	    // whether to hide errors after a period of time
+	    hideError: 'auto',
+	
+	    // duration for error state
+	    errorDuration: 2000,
+	
+	    // whether parameters should be encoded with encodeURIComponent
+	    encodeParameters: true,
+	
+	    // API action to use
+	    action: false,
+	
+	    // templated URL to use
+	    url: false,
+	
+	    // base URL to apply to all endpoints
+	    base: '',
+	
+	    // data that will
+	    urlData: {},
+	
+	    // whether to add default data to url data
+	    defaultData: true,
+	
+	    // whether to serialize closest form
+	    serializeForm: false,
+	
+	    // how long to wait before request should occur
+	    throttle: 0,
+	
+	    // whether to throttle first request or only repeated
+	    throttleFirstRequest: true,
+	
+	    // standard ajax settings
+	    method: 'get',
+	    data: {},
+	    dataType: 'json',
+	
+	    // mock response
+	    mockResponse: false,
+	    mockResponseAsync: false,
+	
+	    // aliases for mock
+	    response: false,
+	    responseAsync: false,
+	
+	    // callbacks before request
+	    beforeSend: function beforeSend(settings) {
+	      return settings;
+	    },
+	    beforeXHR: function beforeXHR(xhr) {},
+	    onRequest: function onRequest(promise, xhr) {},
+	
+	    // after request
+	    onResponse: false, // function(response) { },
+	
+	    // response was successful, if JSON passed validation
+	    onSuccess: function onSuccess(response, $module) {},
+	
+	    // request finished without aborting
+	    onComplete: function onComplete(response, $module) {},
+	
+	    // failed JSON success test
+	    onFailure: function onFailure(response, $module) {},
+	
+	    // server error
+	    onError: function onError(errorMessage, $module) {},
+	
+	    // request aborted
+	    onAbort: function onAbort(errorMessage, $module) {},
+	
+	    successTest: false,
+	
+	    // errors
+	    error: {
+	      beforeSend: 'The before send function has aborted the request',
+	      error: 'There was an error with your request',
+	      exitConditions: 'API Request Aborted. Exit conditions met',
+	      JSONParse: 'JSON could not be parsed during error handling',
+	      legacyParameters: 'You are using legacy API success callback names',
+	      method: 'The method you called is not defined',
+	      missingAction: 'API action used but no url was defined',
+	      missingSerialize: 'jquery-serialize-object is required to add form data to an existing data object',
+	      missingURL: 'No URL specified for api event',
+	      noReturnedValue: 'The beforeSend callback must return a settings object, beforeSend ignored.',
+	      noStorage: 'Caching responses locally requires session storage',
+	      parseError: 'There was an error parsing your request',
+	      requiredParameter: 'Missing a required URL parameter: ',
+	      statusMessage: 'Server gave an error: ',
+	      timeout: 'Your request timed out'
+	    },
+	
+	    regExp: {
+	      required: /\{\$*[A-z0-9]+\}/g,
+	      optional: /\{\/\$*[A-z0-9]+\}/g
+	    },
+	
+	    className: {
+	      loading: 'loading',
+	      error: 'error'
+	    },
+	
+	    selector: {
+	      disabled: '.disabled',
+	      form: 'form'
+	    },
+	
+	    metadata: {
+	      action: 'action',
+	      url: 'url'
+	    }
+	  };
+	})(jQuery, window, document);
 
 /***/ }
 /******/ ]);

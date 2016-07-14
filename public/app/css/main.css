@@ -6,3 +6,7 @@ body {
 #app_composite .field label {
 	cursor: pointer;
 }
+
+.langs_tab {
+	height: 100%;
+}
