@@ -1,5 +1,8 @@
 var webpack  = require('webpack');
-const NODE_ENV = process.env.NODE_ENV || 'development';  
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const node_dir = __dirname + '/node_modules';
+const path = require('path');
+
 
 module.exports = {
   entry: './public/app/app',
@@ -29,6 +32,12 @@ module.exports = {
       NODE_ENV: JSON.stringify(NODE_ENV)
     })
   ],
+
+  resolve: {
+    root: [
+      path.resolve('node_modules')
+    ]
+  },
 
   watch: NODE_ENV == 'development',
 

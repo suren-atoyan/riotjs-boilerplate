@@ -1,15 +1,15 @@
 'use strict';
 
-import _        from '../../../bower_components/underscore/underscore.js';
+import _ from 'underscore';
 
-var Backbone = require('backbone');
+import Backbone from 'backbone';
 
 var Dispatcher = _.extend({}, Backbone.Events);
 
 var api = {
   test: function(options) {
     var CompositeView = require('../views/app.composite.view');
-    console.log(CompositeView())
+    new CompositeView.default;
   }
 }
 
